@@ -1,4 +1,5 @@
-html {
+html,
+.root {
   height: 100%;
 }
 
@@ -9,14 +10,74 @@ body {
   font-family: 'Cousine', monospace;
 }
 
-#root {
-  height: 100%;
-}
-
 main {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.colors {
+  box-sizing: border-box;
+  flex: 3 1 auto;
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 12rem; /* magic number to account for adjusters */
+}
+
+.colorContainer {
+  box-sizing: border-box;
+  flex-basis: 100%;
+  padding: 1rem;
+  transition: 0.2s ease;
+}
+
+.colorContainer + .colorContainer {
+  border-top: 1px solid #fff;
+}
+
+.adjustersList {
+  background-color: #fff;
+  box-sizing: border-box;
+  display: flex;
+  list-style: none;
+  margin: 0;
+  overflow-x: scroll;
+  padding: 1rem 1rem 1.2rem 1rem;
+
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.adjustersList li {
+  box-sizing: border-box;
+  padding: 0.8rem;
+}
+
+@media (min-width: 43em) {
+  .colorContainer {
+    flex-basis: 50%;
+  }
+
+  .colorContainer + .colorContainer {
+    border-top: 0;
+    border-left: 1px solid #fff;
+  }
+}
+
+.colorInput {
+  appearance: none;
+  background-color: transparent;
+  border: 0;
+  box-sizing: border-box;
+  display: block;
+  font-size: 1.2rem;
+  width: 100%;
+}
+
+.baseColorInput {
+  margin-top: 1rem;
+  font-size: 1.8rem;
 }
 
 input {
@@ -30,31 +91,4 @@ h1 {
 label {
   display: block;
   margin-top: 1rem;
-}
-
-input[type='text'] {
-  box-sizing: border-box;
-  display: block;
-  font-size: 1.2rem;
-  width: 100%;
-}
-
-.adjustersList {
-  background-color: #fff;
-  display: flex;
-  list-style: none;
-  margin: 0;
-  overflow-x: scroll;
-  padding: 1rem 1rem 1.2rem 1rem;
-}
-
-.adjustersList li {
-  box-sizing: border-box;
-  padding: 0.8rem;
-}
-
-.colorContainer {
-  flex-grow: 1;
-  padding: 1rem;
-  transition: 0.2s ease;
 }

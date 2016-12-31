@@ -123,32 +123,41 @@ class App extends Component {
 
     return (
       <main>
+        <div className='colors'>
+          <div className='colorContainer' style={{backgroundColor: inputColor}}>
+            <h1>ColorMe</h1>
+            <p>
+              Visualize CSS color functions. Brought to you by {' '}
+              <a href='https://tylergaw.com'>Tyler Gaw</a>.
 
-        <div className='colorContainer' style={{backgroundColor: inputColor}}>
-          <h1>ColorMe</h1>
-          <p>
-            Visualize CSS color functions. Brought to you by {' '}
-            <a href='https://tylergaw.com'>Tyler Gaw</a>.
+              <br />
+              <small>
+                Inspired by <a href='http://jim-nielsen.com/sassme/'
+                  target='_blank'>SassMe</a>.
+              </small>
+            </p>
 
-            <br />
-            <small>
-              Inspired by <a href='http://jim-nielsen.com/sassme/'
-                target='_blank'>SassMe</a>.
-            </small>
-          </p>
+            <label>
+              Base color:
+              <br /><small>hex, rgb(a), or keyword</small>
+            </label>
+            <input className='colorInput baseColorInput'
+              type='text'
+              value={inputColorDisplay}
+              onChange={this.inputColorOnChange} />
+          </div>
 
-          <label>Base color:</label>
-          <input type='text' value={inputColorDisplay}
-            onChange={this.inputColorOnChange} />
-        </div>
+          <div className='colorContainer' style={{backgroundColor: outputColor}}>
+            <label>Color function</label>
+            <input className='colorInput'
+              type='text'
+              readOnly
+              value={colorFuncStr} />
 
-        <div className='colorContainer' style={{backgroundColor: outputColor}}>
-          <label>Color function</label>
-          <input type='text' readOnly value={colorFuncStr} />
-
-          <p>
-            compiled color: <code>{outputColor}</code>
-          </p>
+            <p>
+              compiled color: <code>{outputColor}</code>
+            </p>
+          </div>
         </div>
 
         <ul className='adjustersList'>
