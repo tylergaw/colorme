@@ -122,7 +122,7 @@ class App extends Component {
     });
 
     return (
-      <div className="app">
+      <main>
 
         <div className='colorContainer' style={{backgroundColor: inputColor}}>
           <h1>ColorMe</h1>
@@ -154,7 +154,7 @@ class App extends Component {
         <ul className='adjustersList'>
           {adjusterOptions}
         </ul>
-      </div>
+      </main>
     );
   }
 }

@@ -1,7 +1,23 @@
+html {
+  height: 100%;
+}
+
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
   font-family: 'Cousine', monospace;
+}
+
+#root {
+  height: 100%;
+}
+
+main {
+  background-color: orange;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 input {
@@ -25,20 +41,38 @@ input[type='text'] {
 }
 
 .adjustersList {
+  background-color: #f9f9f9;
   display: flex;
-  flex-wrap: wrap;
   list-style: none;
   margin: 0;
-  padding: 0;
+  overflow-x: scroll;
+  padding: 0.5rem 1rem 1.2rem 1rem;
 }
 
 .adjustersList li {
   box-sizing: border-box;
-  padding: 0.5rem;
-  width: 33.33%;
+  padding: 0.8rem;
+}
+
+.adjuster {
+  align-items: center;
+  background-color: #fff;
+  border-radius: 6rem;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-wrap: wrap;
+  height: 11rem;
+  justify-content: center;
+  text-align: center;
+  width: 11rem;
+}
+
+.adjusterLabel {
+  font-size: 0.8rem;
 }
 
 .colorContainer {
+  flex-grow: 1;
   padding: 1rem;
   transition: 0.2s ease;
 }
