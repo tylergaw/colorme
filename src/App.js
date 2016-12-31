@@ -1,174 +1,22 @@
+import {
+  DEFAULT_ADJUSTERS,
+  DEFAULT_BASE_COLOR,
+} from 'constants';
 import React, { Component } from 'react';
 import {findIndex, propEq} from 'ramda';
+import {
+  getAdjustersForColor,
+  getAdjustersString,
+  getColorFromQueryVal,
+  getColorFuncString,
+} from 'utils/color';
 
 import color from 'color';
 import colorFn from 'css-color-function';
 
-const DEFAULT_BASE_COLOR = '#2ac20d';
-
-const ADJUSTERS = [
-  {
-    enabled: false,
-    name: 'alpha',
-    shortName: 'a',
-    unit: '%'
-  },
-  {
-    enabled: false,
-    name: 'saturation',
-    unit: '%',
-    shortName: 's'
-  },
-  {
-    enabled: false,
-    name: 'hue',
-    max: 360,
-    shortName: 'h'
-  },
-  {
-    enabled: false,
-    name: 'lightness',
-    unit: '%',
-    shortName: 'l'
-  },
-  {
-    enabled: false,
-    name: 'whiteness',
-    unit: '%',
-    shortName: 'w'
-  },
-  {
-    enabled: false,
-    name: 'blackness',
-    unit: '%',
-    shortName: 'b'
-  },
-  {
-    enabled: false,
-    name: 'tint',
-    unit: '%',
-    value: 0
-  },
-  {
-    enabled: false,
-    name: 'shade',
-    unit: '%',
-    value: 0
-  },
-  {
-    enabled: false,
-    name: 'contrast',
-    unit: '%',
-    value: 0
-  }
-];
-
-/**
- * @param {String} inputColor - A valid hex, rgb, rgba color.
- * @return {Object} An object containing the properties of the given inputColor.
- *                  properties include; rgb, hsl, hwb, alpha, lightness,
- *                  blackness, whiteness.
- */
-const getColorProperties = (inputColor) => {
-  const colorObj = color(inputColor);
-  const {valpha} = colorObj;
-  const {
-    r: red,
-    g: green,
-    b: blue
-  } = colorObj.object();
-
-  const {
-    h: hue,
-    s: saturation,
-    l: lightness
-  } = colorObj.hsl().object();
-
-  const {
-    b: blackness,
-    w: whiteness
-  } = colorObj.hwb().object();
-
-  const properties = {
-    alpha: valpha * 100,
-    hue,
-    lightness,
-    saturation,
-    blackness,
-    whiteness,
-    red,
-    green,
-    blue
-  };
-
-  // Round any floats up on the way out.
-  return Object.keys(properties).reduce((prev, curr) => {
-    prev[curr] = Math.ceil(properties[curr]);
-    return prev;
-  }, {});
-};
-
-/**
- * @param {String} inputColor - A valid hex, rgb, rgba color.
- * @return {Array} An array of adjuster objects customized to fit the inputColor.
- */
-const getColorAdjusters = (inputColor) => {
-  const colorProperties = getColorProperties(inputColor);
-
-  return ADJUSTERS.reduce((prev, curr) => {
-    const adjuster = {...curr};
-    const prop = colorProperties[curr.name];
-
-    if (prop !== undefined) {
-      adjuster.value = prop;
-    }
-
-    prev.push(adjuster);
-    return prev;
-  }, []);
-};
-
-/**
- * @param {String} val - A string that looks like a hex, rgb, or rgba color.
- * @return {String} A valid color as a string.
- */
-const getColorFromQueryVal = (val) => {
-  const {
-    hash,
-    search
-  } = window.location;
-
-  let baseColor = null;
-  const decoded = decodeURIComponent(val);
-
-  // Assume hex value with no "#" if we're at that length.
-  if (val.length === 3 || val.length === 6) {
-    baseColor = decoded.match('#') ? decoded : `#${val}`;
-  // Assume the user put an non-encoded "#" in the value for a hex color.
-  } else if (val.length === 0) {
-    if (hash) {
-      baseColor = hash;
-    }
-  } else {
-    baseColor = decodeURIComponent(val);
-  }
-
-  // One last check. If the baseColor provided is invalid, the call to
-  // color() here will throw an error and we fall back to default base.
-  try {
-    color(baseColor);
-  } catch (err) {
-    baseColor = null;
-    console.warn(`Invalid color provided in URL: ${search}, using default base color.`);
-  }
-
-  return baseColor;
-};
-
 class App extends Component {
   state = {
-    adjusters: getColorAdjusters(DEFAULT_BASE_COLOR),
-    adjustersStr: '',
+    adjusters: getAdjustersForColor(DEFAULT_BASE_COLOR, DEFAULT_ADJUSTERS),
     colorFuncStr: '',
     inputColor: DEFAULT_BASE_COLOR,
     inputColorDisplay: DEFAULT_BASE_COLOR,
@@ -185,7 +33,7 @@ class App extends Component {
       const baseColor = getColorFromQueryVal(queryVal) || DEFAULT_BASE_COLOR;
 
       this.setState({
-        adjusters: getColorAdjusters(baseColor),
+        adjusters: getAdjustersForColor(baseColor, DEFAULT_ADJUSTERS),
         inputColor: baseColor,
         inputColorDisplay: baseColor,
         outputColor: baseColor
@@ -194,20 +42,29 @@ class App extends Component {
   }
 
   inputColorOnChange = (event) => {
-    const inputValue = event.target.value;
+    const {
+      adjusters
+    } = this.state;
+
+    const nextBaseColor = event.target.value;
     try {
-      color(inputValue);
+      color(nextBaseColor);
+
+      const nextAdjusters = getAdjustersForColor(nextBaseColor, adjusters);
+      const adjustersStr = getAdjustersString(nextAdjusters);
+      const colorFuncStr = getColorFuncString(nextBaseColor, adjustersStr);
+      const converted = colorFn.convert(colorFuncStr) || nextBaseColor;
 
       this.setState({
-        adjusters: getColorAdjusters(inputValue),
-        colorFuncStr: '',
-        inputColor: inputValue,
-        inputColorDisplay: inputValue,
-        outputColor: inputValue
+        adjusters: nextAdjusters,
+        colorFuncStr: colorFuncStr,
+        inputColor: nextBaseColor,
+        inputColorDisplay: nextBaseColor,
+        outputColor: converted
       });
     } catch(err) {
       this.setState({
-        inputColorDisplay: inputValue
+        inputColorDisplay: nextBaseColor
       });
     };
   }
@@ -222,35 +79,20 @@ class App extends Component {
     const adjusterName = event.target.name.replace('Value', '');
     const nextAdjusters = [...adjusters];
     const index = findIndex(propEq('name', adjusterName))(nextAdjusters);
+    const adjuster = nextAdjusters[index];
 
     if (isToggle) {
-      nextAdjusters[index].enabled = !nextAdjusters[index].enabled;
+      adjuster.enabled = !nextAdjusters[index].enabled;
     } else {
-      nextAdjusters[index].value = event.target.value;
+      adjuster.value = event.target.value;
     }
 
-    const adjustersStr = nextAdjusters.reduce((prev, curr) => {
-      const {
-        name,
-        value,
-        unit = ''
-      } = curr;
-
-      if (curr.enabled) {
-        return `${prev} ${name}(${value}${unit})`;
-      }
-
-      return prev;
-    }, '');
-
-    const colorFuncStr = (adjustersStr.length) ?
-      `color(${inputColor}${adjustersStr})` : '';
-
+    const adjustersStr = getAdjustersString(nextAdjusters);
+    const colorFuncStr = getColorFuncString(inputColor, adjustersStr);
     const converted = colorFn.convert(colorFuncStr) || inputColor;
 
     this.setState({
       adjusters: nextAdjusters,
-      adjustersStr,
       colorFuncStr,
       outputColor: converted
     });
