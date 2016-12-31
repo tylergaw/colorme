@@ -11,6 +11,7 @@
     "email": "me@tylergaw.com",
     "url": "https://tylergaw.com"
   },
+  "license": "MIT",
   "homepage": "http://colorme.io/",
   "repository": "https://github.com/tylergaw/colorme",
   "bugs": "https://github.com/tylergaw/colorme/issues",
