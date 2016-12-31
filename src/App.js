@@ -199,8 +199,11 @@ class App extends Component {
       color(inputValue);
 
       this.setState({
+        adjusters: getColorAdjusters(inputValue),
+        colorFuncStr: '',
         inputColor: inputValue,
-        inputColorDisplay: inputValue
+        inputColorDisplay: inputValue,
+        outputColor: inputValue
       });
     } catch(err) {
       this.setState({
