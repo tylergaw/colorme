@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+- 6.9.1
+sudo: false
+cache:
+  directories:
+  - /home/travis/.local
+  - node_modules
+  - $(npm config get cache)
+before_install:
+- npm config set progress false
+- npm config set spin false
+install:
+- pip install --user -U awscli
+- npm install
+script:
+- npm test
+deploy:
+- provider: script
+  script: npm run deploy
+  on:
+    tags: true
