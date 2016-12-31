@@ -11,6 +11,7 @@ import {
   getColorFuncString,
 } from 'utils/color';
 
+import Adjuster from 'Adjuster';
 import color from 'color';
 import colorFn from 'css-color-function';
 
@@ -84,7 +85,7 @@ class App extends Component {
     if (isToggle) {
       adjuster.enabled = !nextAdjusters[index].enabled;
     } else {
-      adjuster.value = event.target.value;
+      adjuster.value = parseInt(event.target.value, 10);
     }
 
     const adjustersStr = getAdjustersString(nextAdjusters);
@@ -108,28 +109,14 @@ class App extends Component {
     } = this.state;
 
     const adjusterOptions = adjusters.map(a => {
-      const {
-        enabled,
-        name,
-        max = 100,
-        value
-      } = a;
+      const props = {
+        ...a,
+        onChange: this.adjusterOnChange
+      }
 
       return (
-        <li key={`${name}Adjuster`}>
-          <label>
-            <input type='checkbox' name={name} checked={enabled}
-            onChange={this.adjusterOnChange} /> {name}
-          </label>
-          {enabled ? (
-            <div>
-              <label>
-                Value
-              </label>
-              <input type='number' name={`${name}Value`} min='0' max={max}
-                defaultValue={value} onChange={this.adjusterOnChange} />
-            </div>
-          ) : ''}
+        <li key={`${a.name}Adjuster`}>
+          <Adjuster {...props} />
         </li>
       );
     });
@@ -140,8 +127,14 @@ class App extends Component {
         <div className='colorContainer' style={{backgroundColor: inputColor}}>
           <h1>ColorMe</h1>
           <p>
-            Visualize CSS color functions. Brought to you by Tyler Gaw.
-            Inspired by SassMe
+            Visualize CSS color functions. Brought to you by {' '}
+            <a href='https://tylergaw.com'>Tyler Gaw</a>.
+
+            <br />
+            <small>
+              Inspired by <a href='http://jim-nielsen.com/sassme/'
+                target='_blank'>SassMe</a>.
+            </small>
           </p>
 
           <label>Base color:</label>
@@ -158,7 +151,7 @@ class App extends Component {
           </p>
         </div>
 
-        <ul>
+        <ul className='adjustersList'>
           {adjusterOptions}
         </ul>
       </div>

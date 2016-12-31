@@ -18,15 +18,27 @@ label {
 }
 
 input[type='text'] {
+  box-sizing: border-box;
   display: block;
   font-size: 1.2rem;
-  width: 90%;
+  width: 100%;
 }
 
-ul {
+.adjustersList {
+  display: flex;
+  flex-wrap: wrap;
   list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.adjustersList li {
+  box-sizing: border-box;
+  padding: 0.5rem;
+  width: 33.33%;
 }
 
 .colorContainer {
+  padding: 1rem;
   transition: 0.2s ease;
 }

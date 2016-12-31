@@ -47,7 +47,7 @@ export const getColorProperties = (inputColor) => {
 
 /**
  * @param {String} inputColor - A valid hex, rgb, rgba color.
- * @return {Array} An array of adjuster objects customized to fit the inputColor.
+ * @return {Array} An array of adjuster objects for the inputColor.
  */
 export const getAdjustersForColor = (inputColor, baseAdjusters) => {
   const colorProperties = getColorProperties(inputColor);
