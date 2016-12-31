@@ -1,3 +1,5 @@
+import 'Adjuster.css';
+
 import React, {Component, PropTypes} from 'react';
 
 class Adjuster extends Component {
@@ -10,7 +12,7 @@ class Adjuster extends Component {
     value: PropTypes.number.isRequired
   }
 
-  defaultProps = {
+  static defaultProps = {
     enabled: false,
     max: 100,
     min: 0,
@@ -26,12 +28,13 @@ class Adjuster extends Component {
       onChange,
       value
     } = this.props;
-
+    
     return (
       <div className='adjuster'>
         <div className={`adjusterValue ${enabled ? '' : 'adjusterValueDisabled'}`}>
 
-          <input aria-label={`${name} value`}
+          <input className='adjustValueInput'
+            aria-label={`${name} value`}
             type='number'
             name={`${name}Value`}
             min={min}

@@ -1,0 +1,24 @@
+.adjuster {
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 1.4rem 1rem;
+  text-align: center;
+}
+
+.adjustValueInput {
+  border: 0;
+  display: block;
+  font-size: 1.4rem;
+  text-align: center;
+  width: 100%;
+}
+
+.adjusterLabel {
+  font-size: 0.8rem;
+}
