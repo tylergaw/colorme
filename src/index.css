@@ -1,5 +1,32 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Cousine', monospace;
+}
+
+input {
+  font-family: 'Cousine', monospace;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+}
+
+input[type='text'] {
+  display: block;
+  font-size: 1.2rem;
+  width: 90%;
+}
+
+ul {
+  list-style: none;
+}
+
+.colorContainer {
+  transition: 0.2s ease;
 }
