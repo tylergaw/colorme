@@ -9,6 +9,7 @@ class Adjuster extends Component {
     min: PropTypes.number,
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func,
+    unit: PropTypes.string,
     value: PropTypes.number.isRequired
   }
 
@@ -16,7 +17,8 @@ class Adjuster extends Component {
     enabled: false,
     max: 100,
     min: 0,
-    onChange: () => {}
+    onChange: () => {},
+    unit: ''
   }
 
   render() {
@@ -26,6 +28,7 @@ class Adjuster extends Component {
       min,
       name,
       onChange,
+      unit,
       value
     } = this.props;
 
@@ -41,11 +44,11 @@ class Adjuster extends Component {
 
           <input className='adjusterValInput'
             aria-label={`${name} value`}
-            type='number'
+            type='text'
             name={`${name}Value`}
             min={min}
             max={max}
-            value={value}
+            value={`${value}${unit}`}
             onChange={onChange} />
 
           <input className='adjusterValRange'

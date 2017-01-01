@@ -1,18 +1,18 @@
 .adjuster {
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.6);
-  /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);*/
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
   box-sizing: border-box;
-  color: #fff;
+  color: rgba(0, 0, 0, 0.7);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 0 0.5rem 1rem 0.5rem;
+  padding: 0 0.8rem 1rem 0.8rem;
   text-align: center;
 
-  border-radius: 3.5rem;
-  height: 7rem;
-  width: 7rem;
+  border-radius: 4rem;
+  height: 7.5rem;
+  width: 7.5rem;
 }
 
 .adjusterValue {
@@ -24,12 +24,12 @@
   background-color: transparent;
   border: 0;
   box-sizing: border-box;
-  color: #fff;
+  color: rgba(0, 0, 0, 0.75);
   display: block;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   padding: 0;
+  margin-top: 0.5rem;
   text-align: center;
-  text-indent: 0.6rem;
   width: 100%;
 }
 
@@ -44,12 +44,12 @@
   background-color: transparent;
   box-sizing: border-box;
   display: block;
-  margin: 0.5rem 0 0 0;
+  margin: 0.8rem 0 0 0;
   width: 100%;
 }
 
 .adjusterValRange::-webkit-slider-runnable-track {
-  background-color: #fff;
+  background-color: rgba(0, 0, 0, 0.6);
   border-radius: 2px;
   cursor: pointer;
   height: 2px;
@@ -58,7 +58,7 @@
 
 .adjusterValRange::-webkit-slider-thumb {
   appearance: none;
-  background-color: #fff;
+  background-color: rgba(0, 0, 0, 0.7);
   border: 0;
   border-radius: 0.5rem;
   height: 1rem;

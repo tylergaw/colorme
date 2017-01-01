@@ -36,6 +36,7 @@ main {
 }
 
 .adjusters {
+  /*background-color: rgba(0, 0, 0, 0.25);*/
   bottom: 0;
   position: fixed;
   width: 100%;
@@ -49,15 +50,17 @@ main {
 .adjustersList {
   box-sizing: border-box;
   display: flex;
+  justify-content: space-between;
   list-style: none;
   margin: 0;
   overflow-x: scroll;
-  padding: 0.5rem 5rem 0.9rem 0.5rem;
+  padding: 0.5rem 1rem 0.9rem 0.5rem;
 }
 
 .adjustersList li {
   box-sizing: border-box;
-  padding: 0.25rem;
+  display: block;
+  padding: 0.5rem;
 }
 
 .adjustersList li:last-child {
@@ -79,13 +82,16 @@ main {
   appearance: none;
   background-color: transparent;
   border: 0;
+  border-radius: 3px;
   box-sizing: border-box;
   display: block;
   font-size: 1.2rem;
+  padding: 0.5rem;
   width: 100%;
 }
 
 .baseColorInput {
+  border: 1px solid #000;
   margin-top: 1rem;
   font-size: 1.8rem;
 }

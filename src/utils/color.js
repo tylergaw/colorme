@@ -55,11 +55,9 @@ export const getAdjustersForColor = (inputColor, baseAdjusters) => {
   return baseAdjusters.map(a => {
     let adjuster = {...a};
     const prop = colorProperties[a.name];
+    adjuster.enabled = false;
 
-    // FIXME: Holding onto values for enabled adjusters only works for
-    // adjusters that use a percentage value. Need to make this smarter
-    // or things get all weird.
-    if (!adjuster.enabled && prop !== undefined) {
+    if (prop !== undefined) {
       adjuster.value = prop;
     }
 
