@@ -18,10 +18,9 @@ main {
 
 .colors {
   box-sizing: border-box;
-  flex: 3 1 auto;
   display: flex;
+  flex-grow: 1;
   flex-wrap: wrap;
-  padding-bottom: 12rem; /* magic number to account for adjusters */
 }
 
 .colorContainer {
@@ -31,27 +30,38 @@ main {
   transition: 0.2s ease;
 }
 
-.colorContainer + .colorContainer {
-  border-top: 1px solid #fff;
+.outputColor {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  padding-bottom: 12rem;
+}
+
+.adjusters {
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+}
+
+.adjusters h3 {
+  margin: 0;
+  padding: 0 1rem;
 }
 
 .adjustersList {
-  background-color: #fff;
   box-sizing: border-box;
   display: flex;
   list-style: none;
   margin: 0;
   overflow-x: scroll;
-  padding: 1rem 1rem 1.2rem 1rem;
-
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+  padding: 0.5rem 5rem 0.9rem 0.5rem;
 }
 
 .adjustersList li {
   box-sizing: border-box;
-  padding: 0.8rem;
+  padding: 0.25rem;
+}
+
+.adjustersList li:last-child {
+  padding-right: 1.2rem;
 }
 
 @media (min-width: 43em) {
@@ -59,9 +69,9 @@ main {
     flex-basis: 50%;
   }
 
-  .colorContainer + .colorContainer {
-    border-top: 0;
-    border-left: 1px solid #fff;
+  .outputColor {
+    box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.5);
+    padding-bottom: 0;
   }
 }
 

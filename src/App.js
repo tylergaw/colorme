@@ -147,7 +147,7 @@ class App extends Component {
               onChange={this.inputColorOnChange} />
           </div>
 
-          <div className='colorContainer' style={{backgroundColor: outputColor}}>
+          <div className='colorContainer outputColor' style={{backgroundColor: outputColor}}>
             <label>Color function</label>
             <input className='colorInput'
               type='text'
@@ -160,9 +160,12 @@ class App extends Component {
           </div>
         </div>
 
-        <ul className='adjustersList'>
-          {adjusterOptions}
-        </ul>
+        <div className='adjusters'>
+          <h3>Adjusters</h3>
+          <ul className='adjustersList'>
+            {adjusterOptions}
+          </ul>
+        </div>
       </main>
     );
   }

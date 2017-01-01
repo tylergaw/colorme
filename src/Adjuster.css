@@ -1,26 +1,67 @@
 .adjuster {
   align-items: center;
-  background-color: #fff;
-  border: 1px solid #e6e6e6;
-  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.6);
+  /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);*/
   box-sizing: border-box;
+  color: #fff;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 1.4rem 1rem;
+  padding: 0 0.5rem 1rem 0.5rem;
   text-align: center;
+
+  border-radius: 3.5rem;
+  height: 7rem;
+  width: 7rem;
 }
 
-.adjustValueInput {
+.adjusterValue {
+  flex-basis: 100%;
+}
+
+.adjusterValInput {
+  appearance: none;
+  background-color: transparent;
   border: 0;
+  box-sizing: border-box;
+  color: #fff;
   display: block;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  padding: 0;
   text-align: center;
+  text-indent: 0.6rem;
   width: 100%;
 }
 
 .adjusterLabel {
   display: block;
-  font-size: 0.8rem;
+  flex-basis: 100%;
+  font-size: 0.7rem;
+}
+
+.adjusterValRange {
+  appearance: none;
+  background-color: transparent;
+  box-sizing: border-box;
+  display: block;
+  margin: 0.5rem 0 0 0;
   width: 100%;
+}
+
+.adjusterValRange::-webkit-slider-runnable-track {
+  background-color: #fff;
+  border-radius: 2px;
+  cursor: pointer;
+  height: 2px;
+  width: 100%;
+}
+
+.adjusterValRange::-webkit-slider-thumb {
+  appearance: none;
+  background-color: #fff;
+  border: 0;
+  border-radius: 0.5rem;
+  height: 1rem;
+  margin-top: -0.45rem;
+  width: 1rem;
 }
