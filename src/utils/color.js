@@ -109,18 +109,28 @@ export const getColorFromQueryVal = (val) => {
   } = window.location;
 
   let baseColor = null;
-  const decoded = decodeURIComponent(val);
+  const decoded = decodeURIComponent(val.toLowerCase());
 
-  // Assume hex value with no "#" if we're at that length.
-  if (val.length === 3 || val.length === 6) {
-    baseColor = decoded.match('#') ? decoded : `#${val}`;
   // Assume the user put an non-encoded "#" in the value for a hex color.
-  } else if (val.length === 0) {
+  // Browsers will see this as window.location.hash.
+  if (decoded.length === 0) {
     if (hash) {
       baseColor = hash;
     }
+  // If the val is a valid hex color length, start down that path.
+  } else if (decoded.length === 3 || decoded.length === 6) {
+    baseColor = decoded.match('#') ? decoded : `#${decoded}`;
+
+    // Now that we've added a '#' to the string, we test to see if this is
+    // in fact a valid hex color. If not, let's assume we have a keyword
+    // color and remove the "#".
+    if (!/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(baseColor)) {
+      baseColor = baseColor.replace('#', '');
+    }
+  // If none of the above match, assume the value is valid as is and just
+  // decode it.
   } else {
-    baseColor = decodeURIComponent(val);
+    baseColor = decoded;
   }
 
   // One last check. If the baseColor provided is invalid, the call to

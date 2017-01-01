@@ -105,3 +105,55 @@ describe('#getAdjustersForColor', () => {
     expect(C.getAdjustersForColor(hex, DEFAULT_ADJUSTERS)).toEqual(expectedAdjusters);
   });
 });
+
+describe('#getColorFromQueryVal', () => {
+  const hash = '#8421e6';
+  const hashThree = '#842';
+
+  const hex = '8421e6';
+  const hexThree = '842';
+
+  const encoded = '%238421e6';
+  const encodedThree = '%23842';
+
+  const rgb = 'rgb(181, 119, 242)';
+  const encodedRgb = 'rgb(181,%20119,%20242)';
+  const rgba = 'rgb(181, 119, 242, 0.6)';
+  const encodedRgba = 'rgb(181,%20119,%20242,%200.6)';
+
+  it('gets the correct color from keyword colors', () => {
+    expect(C.getColorFromQueryVal('red')).toEqual('red');
+    expect(C.getColorFromQueryVal('yellow')).toEqual('yellow');
+    expect(C.getColorFromQueryVal('navy')).toEqual('navy');
+  });
+
+  it('gets the correct color from a hex with an un-encoded url hash', () => {
+    expect(C.getColorFromQueryVal(hash)).toEqual(hash);
+  });
+
+  it('gets the correct color from a 3 digit hex with an un-encoded url hash', () => {
+    expect(C.getColorFromQueryVal(hashThree)).toEqual(hashThree);
+  });
+
+  it('gets the correct color from a hex without a hash', () => {
+    expect(C.getColorFromQueryVal(hex)).toEqual(hash);
+  });
+
+  it('gets the correct color from a hex with url encoded hash', () => {
+    expect(C.getColorFromQueryVal(encoded)).toEqual(hash);
+  });
+
+  it('gets the correct color from a 3-digit hex with url encoded hash', () => {
+    expect(C.getColorFromQueryVal(encodedThree)).toEqual(hashThree);
+  });
+
+  it('gets the correct color for an un-encoded rgb(a) strings', () => {
+    expect(C.getColorFromQueryVal(rgb)).toEqual(rgb);
+    expect(C.getColorFromQueryVal(rgba)).toEqual(rgba);
+  });
+
+  it('gets the correct color for an encoded rgb(a) strings', () => {
+    expect(C.getColorFromQueryVal(encodedRgb)).toEqual(rgb);
+    expect(C.getColorFromQueryVal(encodedRgba)).toEqual(rgba);
+  });
+});
