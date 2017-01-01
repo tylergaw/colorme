@@ -1,4 +1,5 @@
 import color from 'color';
+import colorFn from 'css-color-function';
 
 /**
  * @param {String} inputColor - A valid hex, rgb, rgba color.
@@ -141,4 +142,8 @@ export const getColorFromQueryVal = (val) => {
   }
 
   return baseColor;
+};
+
+export const getContrastColor = (baseColor, amt = '90%') => {
+  return colorFn.convert(`color(${baseColor} contrast(${amt}))`);
 };

@@ -9,6 +9,7 @@ class Adjuster extends Component {
     min: PropTypes.number,
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func,
+    outputContrastColor: PropTypes.string.isRequired,
     unit: PropTypes.string,
     value: PropTypes.number.isRequired
   }
@@ -34,14 +35,16 @@ class Adjuster extends Component {
 
     return (
       <div className='adjuster'>
-        <div className={`adjusterValue ${enabled ? '' : 'adjusterValueDisabled'}`}>
+        <label className='adjusterLabel'
+          htmlFor={`adjuster${name}`}>
           <input className='adjusterValCheckbox'
             id={`adjuster${name}`}
             type='checkbox'
             name={name}
             checked={enabled}
-            onChange={onChange} />
-
+            onChange={onChange} /> {name}
+        </label>
+        <div className={`adjusterValue ${enabled ? '' : 'adjusterValueDisabled'}`}>
           <input className='adjusterValInput'
             aria-label={`${name} value`}
             type='text'
@@ -60,10 +63,6 @@ class Adjuster extends Component {
             value={value}
             onChange={onChange} />
         </div>
-        <label className='adjusterLabel'
-          htmlFor={`adjuster${name}`}>
-          {name}
-        </label>
       </div>
     );
   }

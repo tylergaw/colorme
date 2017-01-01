@@ -9,6 +9,7 @@ import {
   getAdjustersString,
   getColorFromQueryVal,
   getColorFuncString,
+  getContrastColor,
 } from 'utils/color';
 
 import Adjuster from 'Adjuster';
@@ -20,8 +21,10 @@ class App extends Component {
     adjusters: getAdjustersForColor(DEFAULT_BASE_COLOR, DEFAULT_ADJUSTERS),
     colorFuncStr: '',
     inputColor: DEFAULT_BASE_COLOR,
+    inputContrastColor: getContrastColor(DEFAULT_BASE_COLOR),
     inputColorDisplay: DEFAULT_BASE_COLOR,
-    outputColor: DEFAULT_BASE_COLOR
+    outputColor: DEFAULT_BASE_COLOR,
+    outputContrastColor: getContrastColor(DEFAULT_BASE_COLOR)
   };
 
   componentWillMount() {
@@ -37,7 +40,9 @@ class App extends Component {
         adjusters: getAdjustersForColor(baseColor, DEFAULT_ADJUSTERS),
         inputColor: baseColor,
         inputColorDisplay: baseColor,
-        outputColor: baseColor
+        inputContrastColor: getContrastColor(baseColor),
+        outputColor: baseColor,
+        outputContrastColor: getContrastColor(baseColor)
       })
     }
   }
@@ -54,14 +59,16 @@ class App extends Component {
       const nextAdjusters = getAdjustersForColor(nextBaseColor, adjusters);
       const adjustersStr = getAdjustersString(nextAdjusters);
       const colorFuncStr = getColorFuncString(nextBaseColor, adjustersStr);
-      const converted = colorFn.convert(colorFuncStr) || nextBaseColor;
+      const outputColor = colorFn.convert(colorFuncStr) || nextBaseColor;
 
       this.setState({
         adjusters: nextAdjusters,
         colorFuncStr: colorFuncStr,
         inputColor: nextBaseColor,
+        inputContrastColor: getContrastColor(nextBaseColor),
         inputColorDisplay: nextBaseColor,
-        outputColor: converted
+        outputColor,
+        outputContrastColor: getContrastColor(outputColor)
       });
     } catch(err) {
       this.setState({
@@ -90,12 +97,14 @@ class App extends Component {
 
     const adjustersStr = getAdjustersString(nextAdjusters);
     const colorFuncStr = getColorFuncString(inputColor, adjustersStr);
-    const converted = colorFn.convert(colorFuncStr) || inputColor;
+    const outputColor = colorFn.convert(colorFuncStr) || inputColor;
+    const outputContrastColor = colorFn.convert(`color(${outputColor} contrast(2%))`);
 
     this.setState({
       adjusters: nextAdjusters,
       colorFuncStr,
-      outputColor: converted
+      outputColor,
+      outputContrastColor
     });
   }
 
@@ -104,13 +113,16 @@ class App extends Component {
       adjusters,
       colorFuncStr,
       inputColor,
+      inputContrastColor,
       inputColorDisplay,
-      outputColor
+      outputColor,
+      outputContrastColor
     } = this.state;
 
     const adjusterOptions = adjusters.map(a => {
       const props = {
         ...a,
+        outputContrastColor,
         onChange: this.adjusterOnChange
       }
 
@@ -124,36 +136,58 @@ class App extends Component {
     return (
       <main>
         <div className='colors'>
-          <div className='colorContainer' style={{backgroundColor: inputColor}}>
-            <h1>ColorMe</h1>
-            <p>
-              Visualize CSS color functions. Brought to you by {' '}
-              <a href='https://tylergaw.com'>Tyler Gaw</a>.
+          <div className='colorContainer'
+            style={{
+              backgroundColor: inputColor,
+              color: inputContrastColor
+            }}>
 
-              <br />
-              <small>
-                Inspired by <a href='http://jim-nielsen.com/sassme/'
-                  target='_blank'>SassMe</a>.
-              </small>
-            </p>
+            <header role='banner'>
+              <h1 className='bannerTitle'>
+                ColorMe
+              </h1>
+              <p className='bannerIntro'>
+                Visualize CSS color functions. Brought to you by {' '}
+                <a href='https://tylergaw.com'
+                  style={{color: inputContrastColor}}>
+                  Tyler Gaw
+                </a>.
+
+                <br />
+                <small>
+                  Inspired by <a href='http://jim-nielsen.com/sassme/'
+                    style={{color: inputContrastColor}}
+                    target='_blank'>SassMe</a>.
+                </small>
+              </p>
+            </header>
 
             <label>
               Base color:
               <br /><small>hex, rgb(a), or keyword</small>
             </label>
             <input className='colorInput baseColorInput'
+              style={{
+                color: inputContrastColor
+              }}
               type='text'
               value={inputColorDisplay}
               onChange={this.inputColorOnChange} />
           </div>
 
-          <div className='colorContainer outputColor' style={{backgroundColor: outputColor}}>
+          <div className='colorContainer outputColor'
+            style={{
+              backgroundColor: outputColor,
+              color: outputContrastColor
+            }}>
             <label>Color function</label>
             <input className='colorInput'
+              style={{
+                color: outputContrastColor
+              }}
               type='text'
               readOnly
               value={colorFuncStr} />
-
             <p>
               compiled color: <code>{outputColor}</code>
             </p>
@@ -161,7 +195,7 @@ class App extends Component {
         </div>
 
         <div className='adjusters'>
-          <h3>Adjusters</h3>
+          <h3 style={{color: inputContrastColor}}>Adjusters</h3>
           <ul className='adjustersList'>
             {adjusterOptions}
           </ul>
