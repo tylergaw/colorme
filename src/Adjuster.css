@@ -33,7 +33,7 @@
   background-color: transparent;
   border: 0;
   box-sizing: border-box;
-  color: #252525;
+  color: rgb(98, 0, 128);
   display: block;
   font-size: 1.1rem;
   padding: 0;
@@ -46,7 +46,7 @@
   appearance: none;
   background-color: transparent;
   box-sizing: border-box;
-  color: rgb(23, 23, 23);
+  color: rgb(98, 0, 128);
   display: block;
   margin: 1.2rem 0 0 0;
   opacity: 0.75;

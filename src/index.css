@@ -64,15 +64,18 @@ main {
 }
 
 .adjusters {
-  bottom: 8px;
-  left: 8px;
+  background-color: #fff;
+  bottom: 0;
+  left: 0;
   position: fixed;
-  width: calc(100% - 16px);
+  width: 100%;
 }
 
 .adjusters h3 {
+  color: rgb(98, 0, 128);
+  font-size: 1rem;
   margin: 0;
-  padding: 1rem 1rem 0 1rem;
+  padding: 0.75rem 1rem 0 1rem;
 }
 
 .adjustersList {
@@ -82,7 +85,7 @@ main {
   list-style: none;
   margin: 0;
   overflow-x: scroll;
-  padding: 0.5rem 1rem 0.9rem 0.5rem;
+  padding: 0.25rem 1rem 0.9rem 0.5rem;
 }
 
 .adjustersList li {

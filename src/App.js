@@ -196,7 +196,7 @@ class App extends Component {
         </div>
 
         <div className='adjusters'>
-          <h3 style={{color: inputContrastColor}}>Adjusters</h3>
+          <h3>Adjusters</h3>
           <ul className='adjustersList'>
             {adjusterOptions}
           </ul>
