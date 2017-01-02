@@ -162,17 +162,18 @@ class App extends Component {
               </p>
             </header>
 
-            <label>
-              Base color:
-              <br /><small>hex, rgb(a), or keyword</small>
-            </label>
-            <input className='colorInput baseColorInput'
-              style={{
-                color: inputContrastColor
-              }}
-              type='text'
-              value={inputColorDisplay}
-              onChange={this.inputColorOnChange} />
+            <div className='baseColorContainer'>
+              <label>
+                Base color: <small>hex, rgb(a), or keyword</small>
+              </label>
+              <input className='colorInput baseColorInput'
+                style={{
+                  color: inputContrastColor
+                }}
+                type='text'
+                value={inputColorDisplay}
+                onChange={this.inputColorOnChange} />
+            </div>
           </div>
 
           <div className='colorContainer outputColor'

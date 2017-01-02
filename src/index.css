@@ -20,16 +20,23 @@ main {
   padding: 8px;
 }
 
+[role='banner'] {
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1rem;
+}
+
 .bannerTitle {
   font-size: 1.4rem;
   margin-bottom: 0;
 }
 
 .bannerIntro {
-  margin-top: 0.25rem;
+  margin-top: 0.4rem;
 }
 
 .bannerIntro small {
+  display: block;
+  margin-top: 0.4rem;
   opacity: 0.75;
 }
 
@@ -45,6 +52,10 @@ main {
   flex-basis: 100%;
   padding: 1rem;
   transition: 0.2s ease;
+}
+
+.baseColorContainer {
+  margin-top: 2rem;
 }
 
 .outputColor {
@@ -77,6 +88,7 @@ main {
 .adjustersList li {
   box-sizing: border-box;
   display: block;
+  min-width: 9rem;
   padding: 0.5rem;
 }
 
@@ -126,5 +138,14 @@ h4 {
 
 label {
   display: block;
+  font-size: 1.2rem;
   margin-top: 1rem;
+}
+
+label small {
+  display: block;
+  font-family: 'Cousine', monospace;
+  font-size: 75%;
+  margin-top: 0.3rem;
+  opacity: 0.9;
 }
