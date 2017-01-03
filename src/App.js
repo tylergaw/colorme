@@ -160,7 +160,7 @@ class App extends Component {
                 autoCapitalize='off'
                 spellCheck='false'
                 onChange={this.inputColorOnChange} />
-              <small>hex, rgb(a), or keyword</small>
+              <small>Base hex, rgb(a), or keyword color</small>
             </div>
           </div>
 
@@ -177,7 +177,7 @@ class App extends Component {
                 type='text'
                 readOnly
                 value={outputColor} />
-              <small>&nbsp;</small>
+              <small>Compiled color</small>
             </div>
           </div>
         </div>

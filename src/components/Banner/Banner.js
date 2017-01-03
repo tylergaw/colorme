@@ -10,7 +10,7 @@ class Banner extends Component {
           ColorMe
         </h1>
         <p className='bannerIntro'>
-          Visualize CSS color functions.
+          Visualize The CSS Color Function.
           {' '}Made by <a href='https://tylergaw.com' target='_blank'>Tyler Gaw</a>.
           {' '}Code on <a href='https://github.com/tylergaw/colorme' target='_blank'>GitHub</a>.
           {' '}Inspired by <a href='http://jim-nielsen.com/sassme/' target='_blank'>SassMe</a>.
