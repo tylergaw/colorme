@@ -4,6 +4,7 @@
   "private": false,
   "devDependencies": {
     "gh-pages": "0.12.0",
+    "moment": "2.17.1",
     "react-scripts": "0.8.4"
   },
   "author": {
@@ -27,7 +28,7 @@
     "build": "NODE_PATH=src react-scripts build",
     "test": "NODE_PATH=src react-scripts test --env=jsdom",
     "predeploy": "NODE_PATH=src npm run build",
-    "deploy": "gh-pages -d build",
+    "release": "node scripts/release.js",
     "eject": "react-scripts eject"
   }
 }

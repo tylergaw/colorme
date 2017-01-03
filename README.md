@@ -29,3 +29,19 @@ npm test
 ```
 
 Tests will also run in [Travis](https://travis-ci.org/tylergaw/colorme).
+
+## Releasing
+
+This section is for you, Tyler. When you go away from this project for a while and come back you will no doubt forget how to deploy to prod.
+
+This site is hosted in AWS S3. It uses Route53 for DNS and a Cloudfront distribution. The SSL cert is managed using AWS Certificate Manager.
+
+To push code to prod, run:
+
+```
+npm run release
+```
+
+That will create a new git tag. Travis will see the new tag and run `./scripts/deploy.sh` which in turn builds the project and uploads the artifacts to S3 using the `aws` cli tool.
+
+Note: The AWS key and secret in `.travis.yml` are for an IAM role that only has access to the the `s3://colorme.io` bucket.
