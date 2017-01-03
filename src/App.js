@@ -141,9 +141,8 @@ class App extends Component {
           </h1>
           <p className='bannerIntro'>
             Visualize CSS color functions. Brought to you by {' '}
-            <a href='https://tylergaw.com'>
-              Tyler Gaw
-            </a>.
+            <a href='https://tylergaw.com' target='_blank'>Tyler Gaw</a>.
+            {' '}Code on <a href='https://github.com/tylergaw/colorme' target='_blank'>GitHub</a>.
             {' '}Inspired by <a href='http://jim-nielsen.com/sassme/' target='_blank'>SassMe</a>.
           </p>
         </header>
