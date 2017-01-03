@@ -29,7 +29,6 @@ class Adjuster extends Component {
       min,
       name,
       onChange,
-      unit,
       value
     } = this.props;
 
