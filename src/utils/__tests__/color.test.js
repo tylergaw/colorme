@@ -157,3 +157,21 @@ describe('#getColorFromQueryVal', () => {
     expect(C.getColorFromQueryVal(encodedRgba)).toEqual(rgba);
   });
 });
+
+describe('#getContrastColor', () => {
+  it('returns black if the base color is light', () => {
+    expect(C.getContrastColor('yellow')).toEqual('rgb(0, 0, 0)');
+  });
+
+  it('returns black if the base color alpha is too low', () => {
+    expect(C.getContrastColor('rgba(0, 0, 0, 0.49)')).toEqual('rgb(0, 0, 0)');
+  });
+
+  it('returns white if the base color is dark', () => {
+    expect(C.getContrastColor('rgb(75, 7, 7)')).toEqual('rgb(255, 255, 255)');
+  });
+
+  it('returns white if the base color is black and alpha is high enough', () => {
+    expect(C.getContrastColor('rgba(0, 0, 0, 0.51)')).toEqual('rgb(255, 255, 255)');
+  });
+});

@@ -144,6 +144,29 @@ export const getColorFromQueryVal = (val) => {
   return baseColor;
 };
 
+/**
+ * getContrastColor - For the given baseColor, return a color with sufficient
+ * contrast per WCAG Guidelines.
+ *
+ * @param {String} baseColor - A hex, rgb(a), or keyword color.
+ * @param {String} amt - optional - The contrast amount. Default: 100%.
+ * @return {String} A color with sufficient contrast to the base color or black
+ *                  if the baseColor has an alpha value. less than 50.
+ */
 export const getContrastColor = (baseColor, amt = '100%') => {
-  return colorFn.convert(`color(${baseColor} contrast(${amt}))`);
+  const aThreshold = 50;
+  const props = getColorProperties(baseColor);
+  const colorToUse = props.alpha < aThreshold ? '#000' : baseColor;
+  const {r, g, b} = color(colorToUse).object();
+
+  // This ensures we never use a color with an alpha value less than 100.
+  const safeColor = color({r, g, b}).rgb().string();
+
+  // If the alpha drops below 50, always return black, else return the
+  // sufficiently contrasting color.
+  if (props.alpha < aThreshold) {
+    return safeColor;
+  } else {
+    return colorFn.convert(getColorFuncString(safeColor, ` contrast(${amt})`));
+  }
 };
