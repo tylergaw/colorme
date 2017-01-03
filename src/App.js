@@ -93,7 +93,7 @@ class App extends Component {
     const adjusterName = event.target.name.replace('Value', '');
     const nextAdjusters = [...adjusters];
     const index = findIndex(propEq('name', adjusterName))(nextAdjusters);
-    const adjuster = nextAdjusters[index];
+    let adjuster = nextAdjusters[index];
 
     if (isToggle) {
       adjuster.enabled = !nextAdjusters[index].enabled;
