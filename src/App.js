@@ -98,6 +98,11 @@ class App extends Component {
       adjuster.enabled = !nextAdjusters[index].enabled;
     } else {
       adjuster.value = parseInt(event.target.value, 10);
+
+      // If the user changes an adjuster value, enable the adjuster.
+      if (!adjuster.enabled) {
+        adjuster.enabled = true;
+      }
     }
 
     const adjustersStr = getAdjustersString(nextAdjusters);
