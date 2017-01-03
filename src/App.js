@@ -109,13 +109,12 @@ class App extends Component {
     const adjustersStr = getAdjustersString(nextAdjusters);
     const colorFuncStr = getColorFuncString(inputColor, adjustersStr);
     const outputColor = colorFn.convert(colorFuncStr) || inputColor;
-    const outputContrastColor = colorFn.convert(`color(${outputColor} contrast(2%))`);
 
     this.setState({
       adjusters: nextAdjusters,
       colorFuncStr,
       outputColor,
-      outputContrastColor
+      outputContrastColor: getContrastColor(outputColor)
     });
   }
 
