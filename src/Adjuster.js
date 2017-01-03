@@ -36,12 +36,15 @@ class Adjuster extends Component {
       <div className='adjuster'>
         <label className='adjusterLabel'
           htmlFor={`adjuster${name}`}>
+
           <input className='adjusterValCheckbox'
             id={`adjuster${name}`}
             type='checkbox'
             name={name}
             checked={enabled}
-            onChange={onChange} /> {name}
+            onChange={onChange} />
+
+          <span className='checkboxCustom'></span> {name}
         </label>
         <div className={`adjusterValue ${enabled ? '' : 'adjusterValueDisabled'}`}>
           <div className='adjusterRangeContainer'>

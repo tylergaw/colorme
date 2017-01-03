@@ -11,11 +11,61 @@
 }
 
 .adjusterLabel {
-  display: block;
+  align-items: center;
+  cursor: pointer;
+  display: flex;
   flex-basis: 100%;
   font-size: 0.9rem;
+  justify-content: center;
   padding: 0.5rem 0.75rem;
-  text-indent: -1.4rem;
+  position: relative;
+}
+
+.adjusterLabel input {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.checkboxCustom {
+  background-color: rgba(242, 17, 7, 0);
+  border: 1px solid #f21107;
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: block;
+  height: 0.8rem;
+  margin-left: -0.9rem;
+  margin-right: 0.4rem;
+  position: relative;
+  transition: 0.1s ease;
+  width: 0.8rem;
+}
+
+.checkboxCustom::after {
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  content: '';
+  display: none;
+  height: 6px;
+  left: 3px;
+  position: absolute;
+  top: 1px;
+  transform: rotate(45deg);
+  width: 3px;
+}
+
+.adjusterLabel input:checked ~ .checkboxCustom::after {
+  display: block;
+}
+
+.adjusterLabel input:focus ~ .checkboxCustom,
+.adjusterLabel:hover .checkboxCustom,
+.adjusterLabel:focus .checkboxCustom {
+  box-shadow: 0 0 3px rgba(242, 17, 7, 0.8);
+}
+
+.adjusterLabel input:checked ~ .checkboxCustom {
+  background-color: rgba(242, 17, 7, 0.9);
 }
 
 .adjusterValue {
