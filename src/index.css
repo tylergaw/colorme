@@ -20,24 +20,37 @@ main {
   padding: 8px;
 }
 
+a {
+  background-color: rgba(242, 17, 7, 0);
+  border-bottom: 2px solid rgba(242, 17, 7, 0.6);
+  color: #f21107;
+  display: inline-block;
+  text-decoration: none;
+  transition: 0.1s ease;
+}
+
+a:hover,
+a:focus {
+  background-color: rgba(242, 17, 7, 0.1);
+  border-color: #f21107;
+}
+
 [role='banner'] {
-  border-bottom: 1px solid currentColor;
-  padding-bottom: 1rem;
+  display: flex;
+  padding: 0.1rem 0.5rem 0.8rem 0.5rem;
 }
 
 .bannerTitle {
+  color: #f21107;
   font-size: 1.4rem;
   margin-bottom: 0;
+  margin-right: 0.45rem;
 }
 
 .bannerIntro {
-  margin-top: 0.4rem;
-}
-
-.bannerIntro small {
-  display: block;
-  margin-top: 0.4rem;
-  opacity: 0.75;
+  line-height: 1.5;
+  margin: 0;
+  padding-top: 0.25rem;
 }
 
 .colors {
@@ -50,16 +63,11 @@ main {
 .colorContainer {
   box-sizing: border-box;
   flex-basis: 100%;
-  padding: 1rem;
+  padding: 4rem;
   transition: 0.2s ease;
 }
 
-.baseColorContainer {
-  margin-top: 2rem;
-}
-
 .outputColor {
-  border-top: 8px solid #fff;
   padding-bottom: 12rem;
 }
 
@@ -72,7 +80,7 @@ main {
 }
 
 .adjusters h3 {
-  color: rgb(98, 0, 128);
+  color: #f21107;
   font-size: 1rem;
   margin: 0;
   padding: 0.75rem 1rem 0 1rem;
@@ -106,7 +114,6 @@ main {
 
   .outputColor {
     border-top: 0;
-    border-left: 8px solid #fff;
     padding-bottom: 0;
   }
 }
@@ -121,6 +128,7 @@ main {
   font-size: 1.4rem;
   margin-top: 1rem;
   padding: 0.5rem;
+  transition: 0.2s ease;
   width: 100%;
 }
 
@@ -142,7 +150,6 @@ h4 {
 label {
   display: block;
   font-size: 1.2rem;
-  margin-top: 1rem;
 }
 
 label small {

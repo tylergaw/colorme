@@ -135,32 +135,24 @@ class App extends Component {
 
     return (
       <main>
+        <header role='banner'>
+          <h1 className='bannerTitle'>
+            ColorMe
+          </h1>
+          <p className='bannerIntro'>
+            Visualize CSS color functions. Brought to you by {' '}
+            <a href='https://tylergaw.com'>
+              Tyler Gaw
+            </a>.
+            {' '}Inspired by <a href='http://jim-nielsen.com/sassme/' target='_blank'>SassMe</a>.
+          </p>
+        </header>
         <div className='colors'>
           <div className='colorContainer'
             style={{
               backgroundColor: inputColor,
               color: inputContrastColor
             }}>
-
-            <header role='banner'>
-              <h1 className='bannerTitle'>
-                ColorMe
-              </h1>
-              <p className='bannerIntro'>
-                Visualize CSS color functions. Brought to you by {' '}
-                <a href='https://tylergaw.com'
-                  style={{color: inputContrastColor}}>
-                  Tyler Gaw
-                </a>.
-
-                <br />
-                <small>
-                  Inspired by <a href='http://jim-nielsen.com/sassme/'
-                    style={{color: inputContrastColor}}
-                    target='_blank'>SassMe</a>.
-                </small>
-              </p>
-            </header>
 
             <div className='baseColorContainer'>
               <label>
@@ -181,7 +173,10 @@ class App extends Component {
               backgroundColor: outputColor,
               color: outputContrastColor
             }}>
-            <label>Color function</label>
+            <label>
+              Color function:
+              <small>compiled color: <code>{outputColor}</code></small>
+            </label>
             <input className='colorInput'
               style={{
                 color: outputContrastColor
@@ -189,9 +184,6 @@ class App extends Component {
               type='text'
               readOnly
               value={colorFuncStr} />
-            <p>
-              compiled color: <code>{outputColor}</code>
-            </p>
           </div>
         </div>
 

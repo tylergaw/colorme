@@ -144,6 +144,6 @@ export const getColorFromQueryVal = (val) => {
   return baseColor;
 };
 
-export const getContrastColor = (baseColor, amt = '90%') => {
+export const getContrastColor = (baseColor, amt = '100%') => {
   return colorFn.convert(`color(${baseColor} contrast(${amt}))`);
 };
