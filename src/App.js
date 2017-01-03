@@ -147,7 +147,7 @@ class App extends Component {
       <main>
         <Banner />
         <div className='colors'>
-          <div className='colorContainer'
+          <div className='colorContainer baseColorContainer'
             style={{
               backgroundColor: inputColor,
               color: inputContrastColor
@@ -165,11 +165,11 @@ class App extends Component {
                 autoCapitalize='off'
                 spellCheck='false'
                 onChange={this.inputColorOnChange} />
-              <small>Base hex, rgb(a), or keyword color</small>
+              <small>Hex, rgb(a), or keyword color</small>
             </div>
           </div>
 
-          <div className='colorContainer outputColor'
+          <div className='colorContainer outputColorContainer'
             style={{
               backgroundColor: outputColor,
               color: outputContrastColor

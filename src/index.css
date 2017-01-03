@@ -10,6 +10,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Karla', helvetica, sans-serif;
+  -webkit-text-size-adjust: 100%;
 }
 
 input {
@@ -55,14 +56,14 @@ main {
   height: 100%;
 }
 
-@media (min-height: 43em) and (max-width: 43em) {
+@media (min-height: 40em) and (max-width: 43em) {
   main {
     flex-wrap: nowrap;
     flex-direction: column;
   }
 }
 
-@media (min-height: 30em) and (min-width: 43em) {
+@media (min-height: 27em) and (min-width: 43em) {
   main {
     flex-wrap: nowrap;
     flex-direction: column;
@@ -85,12 +86,14 @@ main {
   flex-basis: 100%;
   min-height: 8rem;
   padding: 2rem 1rem 3rem 1rem;
+  position: relative;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .colorInfo {
   flex-basis: 100%;
   max-width: 21rem;
+  z-index: 10;
 }
 
 .controls {
@@ -117,6 +120,7 @@ main {
   color: #252525;
   font-size: 1.2rem;
   margin: 1rem 0 0.7rem 0;
+  padding: 0;
 }
 
 .colorFuncInput::-moz-selection {
@@ -165,6 +169,7 @@ main {
   appearance: none;
   background-color: transparent;
   border: 0;
+  border-radius: 0;
   cursor: text;
   box-sizing: border-box;
   display: block;
