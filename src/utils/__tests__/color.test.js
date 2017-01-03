@@ -69,6 +69,18 @@ describe('#getAdjustersForColor', () => {
     },
     {
       enabled: false,
+      name: 'tint',
+      unit: '%',
+      value: 0
+    },
+    {
+      enabled: false,
+      name: 'shade',
+      unit: '%',
+      value: 0
+    },
+    {
+      enabled: false,
       name: 'whiteness',
       unit: '%',
       shortName: 'w',
@@ -80,18 +92,6 @@ describe('#getAdjustersForColor', () => {
       unit: '%',
       shortName: 'b',
       value: 6
-    },
-    {
-      enabled: false,
-      name: 'tint',
-      unit: '%',
-      value: 0
-    },
-    {
-      enabled: false,
-      name: 'shade',
-      unit: '%',
-      value: 0
     },
     {
       enabled: false,
