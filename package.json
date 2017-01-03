@@ -1,5 +1,6 @@
 {
   "name": "colorme",
+  "description": "Visualize The CSS Color Function",
   "version": "1.0.0",
   "private": false,
   "devDependencies": {
