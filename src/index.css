@@ -17,7 +17,6 @@ main {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 8px;
 }
 
 a {
@@ -36,7 +35,7 @@ a:focus {
 }
 
 [role='banner'] {
-  padding: 0.1rem 0.5rem 0.8rem 0.5rem;
+  padding: 0.8rem 1rem 0.8rem 1rem;
 }
 
 .bannerTitle {
@@ -49,10 +48,11 @@ a:focus {
 .bannerIntro {
   line-height: 1.5;
   margin: 0;
-  padding-top: 0.25rem;
+  padding-top: 0.22rem;
 }
 
 .colors {
+  background-image: url('./img/bgTransparent.svg');
   box-sizing: border-box;
   display: flex;
   flex-grow: 1;
@@ -70,7 +70,7 @@ a:focus {
   padding-bottom: 12rem;
 }
 
-.adjusters {
+.controls {
   background-color: #fff;
   bottom: 0;
   left: 0;
@@ -78,11 +78,38 @@ a:focus {
   width: 100%;
 }
 
-.adjusters h3 {
+.controlsHeading {
   color: #f21107;
   font-size: 1rem;
+  font-weight: 700;
   margin: 0;
-  padding: 0.75rem 1rem 0 1rem;
+  padding: 0.75rem 0 0 0;
+}
+
+.colorFunc {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 0 1rem;
+}
+
+.colorFuncInput {
+  box-sizing: border-box;
+  color: #252525;
+  font-size: 1.2rem;
+  margin: 1rem 0 0.6rem 0;
+}
+
+.colorFuncInput::-moz-selection {
+  background-color: #f21107;
+  color: #fff;
+}
+
+.colorFuncInput::selection {
+  background-color: #f21107;
+  color: #fff;
+}
+
+.adjusters .controlsHeading {
+  padding-left: 1rem;
 }
 
 .adjustersList {
@@ -121,18 +148,26 @@ a:focus {
   }
 }
 
-.colorInput {
+.resetInput {
   appearance: none;
   background-color: transparent;
-  border: 1px solid currentColor;
-  border-radius: 3px;
+  border: 0;
+  cursor: text;
   box-sizing: border-box;
   display: block;
-  font-size: 1.4rem;
-  margin-top: 1rem;
-  padding: 0.5rem;
   transition: 0.2s ease;
   width: 100%;
+}
+
+.colorInput {
+  border-bottom: 1px solid currentColor;
+  font-size: 1.4rem;
+  margin-top: 1rem;
+  padding: 0.5rem 0;
+}
+
+.colorInput:focus {
+  outline: none;
 }
 
 input {

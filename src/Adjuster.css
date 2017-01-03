@@ -1,17 +1,13 @@
 .adjuster {
   align-items: center;
-  background-color: #fff;
-  /*border-right: 1px solid rgba(0, 0, 0, 0.8);*/
   box-sizing: border-box;
   color: #252525;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  min-width: 8rem;
   overflow: hidden;
   text-align: center;
-
-  /*border-radius: 4px;*/
-  min-width: 8rem;
 }
 
 .adjusterLabel {

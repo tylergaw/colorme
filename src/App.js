@@ -19,7 +19,8 @@ import colorFn from 'css-color-function';
 class App extends Component {
   state = {
     adjusters: getAdjustersForColor(DEFAULT_BASE_COLOR, DEFAULT_ADJUSTERS),
-    colorFuncStr: '',
+    colorFuncStr: getColorFuncString(DEFAULT_BASE_COLOR,
+      getAdjustersString(DEFAULT_ADJUSTERS)),
     inputColor: DEFAULT_BASE_COLOR,
     inputContrastColor: getContrastColor(DEFAULT_BASE_COLOR),
     inputColorDisplay: DEFAULT_BASE_COLOR,
@@ -38,6 +39,8 @@ class App extends Component {
 
       this.setState({
         adjusters: getAdjustersForColor(baseColor, DEFAULT_ADJUSTERS),
+        colorFuncStr: getColorFuncString(baseColor,
+          getAdjustersString(DEFAULT_ADJUSTERS)),
         inputColor: baseColor,
         inputColorDisplay: baseColor,
         inputContrastColor: getContrastColor(baseColor),
@@ -53,6 +56,7 @@ class App extends Component {
     } = this.state;
 
     const nextBaseColor = event.target.value;
+
     try {
       color(nextBaseColor);
 
@@ -63,7 +67,7 @@ class App extends Component {
 
       this.setState({
         adjusters: nextAdjusters,
-        colorFuncStr: colorFuncStr,
+        colorFuncStr,
         inputColor: nextBaseColor,
         inputContrastColor: getContrastColor(nextBaseColor),
         inputColorDisplay: nextBaseColor,
@@ -140,8 +144,8 @@ class App extends Component {
             ColorMe
           </h1>
           <p className='bannerIntro'>
-            Visualize CSS color functions. Brought to you by {' '}
-            <a href='https://tylergaw.com' target='_blank'>Tyler Gaw</a>.
+            Visualize CSS color functions.
+            {' '}Made by <a href='https://tylergaw.com' target='_blank'>Tyler Gaw</a>.
             {' '}Code on <a href='https://github.com/tylergaw/colorme' target='_blank'>GitHub</a>.
             {' '}Inspired by <a href='http://jim-nielsen.com/sassme/' target='_blank'>SassMe</a>.
           </p>
@@ -153,17 +157,19 @@ class App extends Component {
               color: inputContrastColor
             }}>
 
-            <div className='baseColorContainer'>
-              <label>
-                Base color: <small>hex, rgb(a), or keyword</small>
-              </label>
-              <input className='colorInput baseColorInput'
+            <div>
+              <input className='resetInput colorInput'
                 style={{
                   color: inputContrastColor
                 }}
                 type='text'
                 value={inputColorDisplay}
+                autoComplete='off'
+                autoCorrect='off'
+                autoCapitalize='off'
+                spellCheck='false'
                 onChange={this.inputColorOnChange} />
+              <small>hex, rgb(a), or keyword</small>
             </div>
           </div>
 
@@ -172,25 +178,36 @@ class App extends Component {
               backgroundColor: outputColor,
               color: outputContrastColor
             }}>
-            <label>
-              Color function:
-              <small>compiled color: <code>{outputColor}</code></small>
-            </label>
-            <input className='colorInput'
+            <input className='resetInput colorInput'
               style={{
                 color: outputContrastColor
               }}
               type='text'
               readOnly
-              value={colorFuncStr} />
+              value={outputColor} />
           </div>
         </div>
 
-        <div className='adjusters'>
-          <h3>Adjusters</h3>
-          <ul className='adjustersList'>
-            {adjusterOptions}
-          </ul>
+        <div className='controls'>
+          <div className='colorFunc'>
+            <label className='controlsHeading' htmlFor='colorFunc'>
+              Color function
+            </label>
+            <input className='resetInput colorFuncInput'
+              id='colorFunc'
+              type='text'
+              readOnly
+              value={colorFuncStr} />
+          </div>
+
+          <div className='adjusters'>
+            <h3 className='controlsHeading'>
+              Adjusters
+            </h3>
+            <ul className='adjustersList'>
+              {adjusterOptions}
+            </ul>
+          </div>
         </div>
       </main>
     );

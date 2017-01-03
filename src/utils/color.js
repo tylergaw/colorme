@@ -94,7 +94,7 @@ export const getAdjustersString = (adjusters) => {
  *                  ex; "color(#ff0004 alpha(100%) hue(250) saturation(50%))"
  */
 export const getColorFuncString = (baseColor, adjustersStr = '') => {
-  return adjustersStr.length ? `color(${baseColor}${adjustersStr})` : '';
+  return `color(${baseColor}${adjustersStr})`;
 };
 
 /**
