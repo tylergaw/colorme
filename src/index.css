@@ -13,10 +13,25 @@ body {
 }
 
 main {
+  align-items: flex-start;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   height: 100%;
+}
+
+@media (min-height: 43em) and (max-width: 43em) {
+  main {
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
+}
+
+@media (min-height: 30em) and (min-width: 43em) {
+  main {
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
 }
 
 a {
@@ -34,24 +49,8 @@ a:focus {
   border-color: #f21107;
 }
 
-[role='banner'] {
-  padding: 0.8rem 1rem 0.8rem 1rem;
-}
-
-.bannerTitle {
-  color: #f21107;
-  font-size: 1.4rem;
-  margin-bottom: 0;
-  margin-right: 0.45rem;
-}
-
-.bannerIntro {
-  line-height: 1.5;
-  margin: 0;
-  padding-top: 0.22rem;
-}
-
 .colors {
+  align-self: stretch;
   background-image: url('./img/bgTransparent.svg');
   box-sizing: border-box;
   display: flex;
@@ -60,21 +59,23 @@ a:focus {
 }
 
 .colorContainer {
+  align-items: flex-end;
   box-sizing: border-box;
+  display: flex;
   flex-basis: 100%;
-  padding: 4rem;
+  min-height: 8rem;
+  padding: 2rem 1rem 3rem 1rem;
   transition: 0.2s ease;
 }
 
-.outputColor {
-  padding-bottom: 12rem;
+.colorInfo {
+  flex-basis: 100%;
+  max-width: 21rem;
 }
 
 .controls {
+  align-self: flex-end;
   background-color: #fff;
-  bottom: 0;
-  left: 0;
-  position: fixed;
   width: 100%;
 }
 
@@ -134,17 +135,8 @@ a:focus {
 }
 
 @media (min-width: 43em) {
-  [role='banner'] {
-    display: flex;
-  }
-
   .colorContainer {
     flex-basis: 50%;
-  }
-
-  .outputColor {
-    border-top: 0;
-    padding-bottom: 0;
   }
 }
 

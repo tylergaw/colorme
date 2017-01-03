@@ -13,6 +13,7 @@ import {
 } from 'utils/color';
 
 import Adjuster from 'Adjuster';
+import Banner from 'components/Banner';
 import color from 'color';
 import colorFn from 'css-color-function';
 
@@ -139,17 +140,7 @@ class App extends Component {
 
     return (
       <main>
-        <header role='banner'>
-          <h1 className='bannerTitle'>
-            ColorMe
-          </h1>
-          <p className='bannerIntro'>
-            Visualize CSS color functions.
-            {' '}Made by <a href='https://tylergaw.com' target='_blank'>Tyler Gaw</a>.
-            {' '}Code on <a href='https://github.com/tylergaw/colorme' target='_blank'>GitHub</a>.
-            {' '}Inspired by <a href='http://jim-nielsen.com/sassme/' target='_blank'>SassMe</a>.
-          </p>
-        </header>
+        <Banner />
         <div className='colors'>
           <div className='colorContainer'
             style={{
@@ -157,7 +148,7 @@ class App extends Component {
               color: inputContrastColor
             }}>
 
-            <div>
+            <div className='colorInfo'>
               <input className='resetInput colorInput'
                 style={{
                   color: inputContrastColor
@@ -178,13 +169,16 @@ class App extends Component {
               backgroundColor: outputColor,
               color: outputContrastColor
             }}>
-            <input className='resetInput colorInput'
-              style={{
-                color: outputContrastColor
-              }}
-              type='text'
-              readOnly
-              value={outputColor} />
+            <div className='colorInfo'>
+              <input className='resetInput colorInput'
+                style={{
+                  color: outputContrastColor
+                }}
+                type='text'
+                readOnly
+                value={outputColor} />
+              <small>&nbsp;</small>
+            </div>
           </div>
         </div>
 

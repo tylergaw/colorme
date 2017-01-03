@@ -1,0 +1,25 @@
+[role='banner'] {
+  align-self: flex-start;
+  box-sizing: border-box;
+  padding: 0.8rem 1rem 0.8rem 1rem;
+  width: 100%;
+}
+
+.bannerTitle {
+  color: #f21107;
+  font-size: 1.4rem;
+  margin-bottom: 0;
+  margin-right: 0.45rem;
+}
+
+.bannerIntro {
+  line-height: 1.5;
+  margin: 0;
+  padding-top: 0.22rem;
+}
+
+@media (min-width: 43em) {
+  [role='banner'] {
+    display: flex;
+  }
+}
