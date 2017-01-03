@@ -12,6 +12,41 @@ body {
   font-family: 'Karla', helvetica, sans-serif;
 }
 
+input {
+  font-family: 'Cousine', monospace;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+}
+
+label {
+  display: block;
+  font-size: 1.2rem;
+}
+
+a {
+  background-color: rgba(242, 17, 7, 0);
+  border-bottom: 2px solid rgba(242, 17, 7, 0.15);
+  color: #f21107;
+  display: inline-block;
+  text-decoration: none;
+  transition: 0.1s ease;
+}
+
+a:hover,
+a:focus {
+  background-color: rgba(242, 17, 7, 0.1);
+  border-color: #f21107;
+}
+
 main {
   align-items: flex-start;
   box-sizing: border-box;
@@ -34,21 +69,6 @@ main {
   }
 }
 
-a {
-  background-color: rgba(242, 17, 7, 0);
-  border-bottom: 2px solid rgba(242, 17, 7, 0.15);
-  color: #f21107;
-  display: inline-block;
-  text-decoration: none;
-  transition: 0.1s ease;
-}
-
-a:hover,
-a:focus {
-  background-color: rgba(242, 17, 7, 0.1);
-  border-color: #f21107;
-}
-
 .colors {
   align-self: stretch;
   background-image: url('./img/bgTransparent.svg');
@@ -65,7 +85,7 @@ a:focus {
   flex-basis: 100%;
   min-height: 8rem;
   padding: 2rem 1rem 3rem 1rem;
-  transition: 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .colorInfo {
@@ -120,12 +140,13 @@ a:focus {
   list-style: none;
   margin: 0;
   overflow-x: scroll;
-  padding: 0.25rem 1rem 0.9rem 0.5rem;
+  padding: 0.25rem 1rem 0.9rem 0;
 }
 
 .adjustersList li {
   box-sizing: border-box;
   display: block;
+  margin-right: 1.5rem;
   min-width: 9rem;
   padding: 0.5rem;
 }
@@ -160,32 +181,4 @@ a:focus {
 
 .colorInput:focus {
   outline: none;
-}
-
-input {
-  font-family: 'Cousine', monospace;
-}
-
-h1 {
-  margin-top: 0;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  font-weight: 700;
-}
-
-label {
-  display: block;
-  font-size: 1.2rem;
-}
-
-label small {
-  display: block;
-  font-family: 'Cousine', monospace;
-  font-size: 75%;
-  margin-top: 0.3rem;
-  opacity: 0.9;
 }

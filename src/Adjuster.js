@@ -45,23 +45,27 @@ class Adjuster extends Component {
             onChange={onChange} /> {name}
         </label>
         <div className={`adjusterValue ${enabled ? '' : 'adjusterValueDisabled'}`}>
-          <input className='adjusterValInput'
-            aria-label={`${name} value`}
-            type='text'
-            name={`${name}Value`}
-            min={min}
-            max={max}
-            value={`${value}${unit}`}
-            onChange={onChange} />
+          <div className='adjusterRangeContainer'>
+            <input className='adjusterValRange'
+              aria-label={`${name} value`}
+              type='range'
+              name={`${name}Value`}
+              min={min}
+              max={max}
+              value={value}
+              onChange={onChange} />
+          </div>
 
-          <input className='adjusterValRange'
-            aria-label={`${name} value`}
-            type='range'
-            name={`${name}Value`}
-            min={min}
-            max={max}
-            value={value}
-            onChange={onChange} />
+          <div className='adjusterInputContainer'>
+            <input className='adjusterValInput'
+              aria-label={`${name} value`}
+              type='number'
+              name={`${name}Value`}
+              min={min}
+              max={max}
+              value={`${value}`}
+              onChange={onChange} />
+          </div>
         </div>
       </div>
     );

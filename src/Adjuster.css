@@ -5,7 +5,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  min-width: 8rem;
+  min-width: 9rem;
   overflow: hidden;
   text-align: center;
 }
@@ -14,26 +14,37 @@
   display: block;
   flex-basis: 100%;
   font-size: 0.9rem;
-  margin: 0.5rem 0 0 0;
-  padding: 0.4rem 0.1rem;
+  padding: 0.5rem 0.75rem;
+  text-indent: -1.4rem;
 }
 
 .adjusterValue {
   box-sizing: border-box;
+  display: flex;
   flex-basis: 100%;
-  padding: 0.5rem 1rem 1.4rem 1rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.adjusterRangeContainer {
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+}
+
+.adjusterInputContainer {
+  flex-basis: 4.8rem;
 }
 
 .adjusterValInput {
-  appearance: none;
   background-color: transparent;
   border: 0;
+  border-radius: 0;
   box-sizing: border-box;
   color: #f21107;
   display: block;
-  font-size: 1.1rem;
-  padding: 0;
-  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  margin: 0;
+  padding: 0.25rem 0.1rem;
   text-align: center;
   width: 100%;
 }
@@ -44,13 +55,24 @@
   box-sizing: border-box;
   color: #f21107;
   display: block;
-  margin: 1.2rem 0 0 0;
-  opacity: 0.75;
+  margin: 0;
   padding: 0;
   width: 100%;
 }
 
+.adjusterValRange:focus {
+  outline: none;
+}
+
 .adjusterValRange::-webkit-slider-runnable-track {
+  background-color: currentColor;
+  border-radius: 2px;
+  cursor: pointer;
+  height: 2px;
+  width: 100%;
+}
+
+.adjusterValRange::-moz-range-track {
   background-color: currentColor;
   border-radius: 2px;
   cursor: pointer;
@@ -62,8 +84,35 @@
   appearance: none;
   background-color: currentColor;
   border: 0;
+  border-radius: 1rem;
+  cursor: pointer;
+  height: 0.75rem;
+  margin-top: -0.3rem;
+  transition: 0.1s ease;
+  width: 0.75rem;
+}
+
+.adjusterValRange::-webkit-slider-thumb:hover,
+.adjusterValRange::-webkit-slider-thumb:active {
+  margin-top: -0.5rem;
+  height: 1.1rem;
+  width: 1.1rem;
+}
+
+.adjusterValRange::-moz-range-thumb {
+  appearance: none;
+  background-color: currentColor;
+  border: 0;
   border-radius: 0.5rem;
-  height: 1rem;
-  margin-top: -0.45rem;
-  width: 1rem;
+  cursor: pointer;
+  height: 0.75rem;
+  transition: 0.1s ease;
+  width: 0.75rem;
+}
+
+.adjusterValRange::-moz-range-thumb:hover,
+.adjusterValRange::-moz-range-thumb:active {
+  margin-top: -0.5rem;
+  height: 1.1rem;
+  width: 1.1rem;
 }
