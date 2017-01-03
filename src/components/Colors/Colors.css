@@ -1,0 +1,43 @@
+.colors {
+  align-self: stretch;
+  background-image: url('/img/bgTransparent.svg');
+  box-sizing: border-box;
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+}
+
+.colorContainer {
+  align-items: flex-end;
+  box-sizing: border-box;
+  display: flex;
+  flex-basis: 100%;
+  min-height: 8rem;
+  padding: 2rem 1rem 3rem 1rem;
+  position: relative;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.colorInfo {
+  flex-basis: 100%;
+  max-width: 21rem;
+  z-index: 10;
+}
+
+.colorInput {
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  font-size: 1.4rem;
+  margin-top: 1rem;
+  padding: 0.5rem 0;
+}
+
+.colorInput:focus {
+  outline: none;
+}
+
+@media (min-width: 43em) {
+  .colorContainer {
+    flex-basis: 50%;
+  }
+}

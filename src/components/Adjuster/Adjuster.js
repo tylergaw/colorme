@@ -1,4 +1,4 @@
-import 'Adjuster.css';
+import './Adjuster.css';
 
 import React, {Component, PropTypes} from 'react';
 
@@ -9,7 +9,6 @@ class Adjuster extends Component {
     min: PropTypes.number,
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func,
-    outputContrastColor: PropTypes.string.isRequired,
     unit: PropTypes.string,
     value: PropTypes.number.isRequired
   }

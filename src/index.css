@@ -56,6 +56,17 @@ main {
   height: 100%;
 }
 
+.resetInput {
+  appearance: none;
+  background-color: transparent;
+  border-radius: 0;
+  cursor: text;
+  box-sizing: border-box;
+  display: block;
+  transition: 0.2s ease;
+  width: 100%;
+}
+
 @media (min-height: 40em) and (max-width: 43em) {
   main {
     flex-wrap: nowrap;
@@ -68,122 +79,4 @@ main {
     flex-wrap: nowrap;
     flex-direction: column;
   }
-}
-
-.colors {
-  align-self: stretch;
-  background-image: url('./img/bgTransparent.svg');
-  box-sizing: border-box;
-  display: flex;
-  flex-grow: 1;
-  flex-wrap: wrap;
-}
-
-.colorContainer {
-  align-items: flex-end;
-  box-sizing: border-box;
-  display: flex;
-  flex-basis: 100%;
-  min-height: 8rem;
-  padding: 2rem 1rem 3rem 1rem;
-  position: relative;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.colorInfo {
-  flex-basis: 100%;
-  max-width: 21rem;
-  z-index: 10;
-}
-
-.controls {
-  align-self: flex-end;
-  background-color: #fff;
-  width: 100%;
-}
-
-.controlsHeading {
-  color: #f21107;
-  font-size: 1rem;
-  font-weight: 700;
-  margin: 0;
-  padding: 0.75rem 0 0 0;
-}
-
-.colorFunc {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  margin: 0 1rem;
-}
-
-.colorFuncInput {
-  box-sizing: border-box;
-  color: #252525;
-  font-size: 1.2rem;
-  margin: 1rem 0 0.7rem 0;
-  padding: 0;
-}
-
-.colorFuncInput::-moz-selection {
-  background-color: #f21107;
-  color: #fff;
-}
-
-.colorFuncInput::selection {
-  background-color: #f21107;
-  color: #fff;
-}
-
-.adjusters .controlsHeading {
-  padding-left: 1rem;
-}
-
-.adjustersList {
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  list-style: none;
-  margin: 0;
-  overflow-x: scroll;
-  padding: 0.3rem 1rem 0.9rem 0;
-}
-
-.adjustersList li {
-  box-sizing: border-box;
-  display: block;
-  margin-right: 1.5rem;
-  min-width: 9rem;
-  padding: 0.5rem;
-}
-
-.adjustersList li:last-child {
-  padding-right: 1.2rem;
-}
-
-@media (min-width: 43em) {
-  .colorContainer {
-    flex-basis: 50%;
-  }
-}
-
-.resetInput {
-  appearance: none;
-  background-color: transparent;
-  border: 0;
-  border-radius: 0;
-  cursor: text;
-  box-sizing: border-box;
-  display: block;
-  transition: 0.2s ease;
-  width: 100%;
-}
-
-.colorInput {
-  border-bottom: 1px solid currentColor;
-  font-size: 1.4rem;
-  margin-top: 1rem;
-  padding: 0.5rem 0;
-}
-
-.colorInput:focus {
-  outline: none;
 }

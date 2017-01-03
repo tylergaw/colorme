@@ -1,6 +1,6 @@
 import './Banner.css';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 class Banner extends Component {
   render() {
