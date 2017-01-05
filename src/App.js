@@ -1,6 +1,7 @@
 import {
   DEFAULT_ADJUSTERS,
   DEFAULT_BASE_COLOR,
+  SHORT_NAMES_KEY,
 } from 'constants';
 import React, { Component } from 'react';
 import {findIndex, propEq} from 'ramda';
@@ -19,42 +20,42 @@ import color from 'color';
 import colorFn from 'css-color-function';
 
 class App extends Component {
-  state = {
-    adjusters: getAdjustersForColor(DEFAULT_BASE_COLOR, DEFAULT_ADJUSTERS),
-    colorFuncStr: getColorFuncString(DEFAULT_BASE_COLOR,
-      getAdjustersString(DEFAULT_ADJUSTERS)),
-    inputColor: DEFAULT_BASE_COLOR,
-    inputContrastColor: getContrastColor(DEFAULT_BASE_COLOR),
-    inputColorDisplay: DEFAULT_BASE_COLOR,
-    outputColor: DEFAULT_BASE_COLOR,
-    outputContrastColor: getContrastColor(DEFAULT_BASE_COLOR)
-  };
+  constructor(props) {
+    super(props);
 
-  componentWillMount() {
     const {
-      search
-    } = window.location;
+      localStorage,
+      location: {
+        search
+      }
+    } = window;
+
+    let baseColor = DEFAULT_BASE_COLOR;
+    const useShortNames = JSON.parse(
+      localStorage.getItem(SHORT_NAMES_KEY)) || false;
 
     if (search.indexOf('color') > -1) {
       const [,queryVal] = search.replace('?', '').split('=');
-      const baseColor = getColorFromQueryVal(queryVal) || DEFAULT_BASE_COLOR;
-
-      this.setState({
-        adjusters: getAdjustersForColor(baseColor, DEFAULT_ADJUSTERS),
-        colorFuncStr: getColorFuncString(baseColor,
-          getAdjustersString(DEFAULT_ADJUSTERS)),
-        inputColor: baseColor,
-        inputColorDisplay: baseColor,
-        inputContrastColor: getContrastColor(baseColor),
-        outputColor: baseColor,
-        outputContrastColor: getContrastColor(baseColor)
-      })
+      baseColor = getColorFromQueryVal(queryVal);
     }
+
+    this.state = {
+      adjusters: getAdjustersForColor(baseColor, DEFAULT_ADJUSTERS),
+      colorFuncStr: getColorFuncString(baseColor,
+        getAdjustersString(DEFAULT_ADJUSTERS, useShortNames)),
+      inputColor: baseColor,
+      inputContrastColor: getContrastColor(baseColor),
+      inputColorDisplay: baseColor,
+      outputColor: baseColor,
+      outputContrastColor: getContrastColor(baseColor),
+      useShortNames
+    };
   }
 
   inputColorOnChange = (event) => {
     const {
-      adjusters
+      adjusters,
+      useShortNames
     } = this.state;
 
     const nextBaseColor = event.target.value;
@@ -63,7 +64,7 @@ class App extends Component {
       color(nextBaseColor);
 
       const nextAdjusters = getAdjustersForColor(nextBaseColor, adjusters);
-      const adjustersStr = getAdjustersString(nextAdjusters);
+      const adjustersStr = getAdjustersString(nextAdjusters, useShortNames);
       const colorFuncStr = getColorFuncString(nextBaseColor, adjustersStr);
       const outputColor = colorFn.convert(colorFuncStr) || nextBaseColor;
 
@@ -86,7 +87,8 @@ class App extends Component {
   adjusterOnChange = (event) => {
     const {
       adjusters,
-      inputColor
+      inputColor,
+      useShortNames
     } = this.state;
 
     const isToggle = event.target.type === 'checkbox';
@@ -106,7 +108,7 @@ class App extends Component {
       }
     }
 
-    const adjustersStr = getAdjustersString(nextAdjusters);
+    const adjustersStr = getAdjustersString(nextAdjusters, useShortNames);
     const colorFuncStr = getColorFuncString(inputColor, adjustersStr);
     const outputColor = colorFn.convert(colorFuncStr) || inputColor;
 
@@ -118,6 +120,31 @@ class App extends Component {
     });
   }
 
+  storeShortNamesOption = (event) => {
+    if (event && event.preventDefault) {
+      event.preventDefault();
+    }
+
+    const {
+      adjusters,
+      inputColor,
+      useShortNames
+    } = this.state;
+
+    const {
+      localStorage
+    } = window;
+
+    const nextUseShortNames = !useShortNames;
+    localStorage.setItem(SHORT_NAMES_KEY, nextUseShortNames);
+
+    this.setState({
+      colorFuncStr: getColorFuncString(inputColor,
+        getAdjustersString(adjusters, nextUseShortNames)),
+      useShortNames: nextUseShortNames
+    });
+  }
+
   render() {
     const {
       adjusters,
@@ -126,7 +153,8 @@ class App extends Component {
       inputContrastColor,
       inputColorDisplay,
       outputColor,
-      outputContrastColor
+      outputContrastColor,
+      useShortNames
     } = this.state;
 
     const colorsProps = {
@@ -141,7 +169,9 @@ class App extends Component {
     const controlsProps = {
       adjusters,
       adjusterOnChange: this.adjusterOnChange,
-      colorFuncStr
+      colorFuncStr,
+      shortNamesOnClick: this.storeShortNamesOption,
+      useShortNames
     };
 
     return (

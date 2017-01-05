@@ -68,19 +68,24 @@ export const getAdjustersForColor = (inputColor, baseAdjusters) => {
 
 /**
  * @param {Array} adjusters - An array of adjuster objects.
+ * @param {Bool} useShortNames - Optional param to use short names for
+ *                               adjusters when available. Default: false
  * @return {String} A string of space-seprated color adjusters.
  *                  ex; "alpha(100%) hue(250) saturation(50%)"
  */
-export const getAdjustersString = (adjusters) => {
+export const getAdjustersString = (adjusters, useShortNames = false) => {
   return adjusters.reduce((prev, curr) => {
     const {
       name,
       value,
+      shortName,
       unit = ''
     } = curr;
 
+    const nameToUse = (shortName && useShortNames) ? shortName : name;
+
     if (curr.enabled) {
-      return `${prev} ${name}(${value}${unit})`;
+      return `${prev} ${nameToUse}(${value}${unit})`;
     }
 
     return prev;

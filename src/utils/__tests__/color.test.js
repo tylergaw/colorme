@@ -111,8 +111,6 @@ describe('#getColorFromQueryVal', () => {
   const hashThree = '#842';
 
   const hex = '8421e6';
-  const hexThree = '842';
-
   const encoded = '%238421e6';
   const encodedThree = '%23842';
 
@@ -173,5 +171,45 @@ describe('#getContrastColor', () => {
 
   it('returns white if the base color is black and alpha is high enough', () => {
     expect(C.getContrastColor('rgba(0, 0, 0, 0.51)')).toEqual('rgb(255, 255, 255)');
+  });
+});
+
+describe('#getAdjustersString', () => {
+  // Creates a clone of the default adjusters
+  // NOTE: need to do this so each object is a clone too.
+  let adjusters = DEFAULT_ADJUSTERS.map(a => {
+    return {...a}
+  });
+
+  it('returns an empty string for the default adjusters', () => {
+    expect(C.getAdjustersString(DEFAULT_ADJUSTERS)).toEqual('');
+  });
+
+  it('returns the correct adjusters string', () => {
+    // alpha
+    adjusters[0].enabled = true;
+    adjusters[0].value = '60';
+
+    // tint
+    adjusters[4].enabled = true;
+    adjusters[4].value = '20';
+
+    expect(C.getAdjustersString(adjusters).trim()).toEqual('alpha(60%) tint(20%)');
+  });
+
+  it('returns the correct adjusters string with short names if available', () => {
+    // alpha | a
+    adjusters[0].enabled = true;
+    adjusters[0].value = '60';
+
+    // saturation | s
+    adjusters[1].enabled = true;
+    adjusters[1].value = '80';
+
+    // tint
+    adjusters[4].enabled = true;
+    adjusters[4].value = '20';
+    console.log(C.getAdjustersString(adjusters, true));
+    expect(C.getAdjustersString(adjusters, true).trim()).toEqual('a(60%) s(80%) tint(20%)');
   });
 });

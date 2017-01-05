@@ -46,7 +46,7 @@ class Colors extends Component {
               autoCapitalize='off'
               spellCheck='false'
               onChange={inputColorOnChange} />
-            <small>Hex, rgb(a), or keyword color</small>
+            <small>Base hex, rgb(a), or keyword color</small>
           </div>
         </div>
 
@@ -63,7 +63,7 @@ class Colors extends Component {
               type='text'
               readOnly
               value={outputColor} />
-            <small>Compiled color</small>
+            <small>Output color</small>
           </div>
         </div>
       </div>

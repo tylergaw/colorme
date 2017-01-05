@@ -56,3 +56,5 @@ export const DEFAULT_ADJUSTERS = [
     value: 0
   }
 ];
+
+export const SHORT_NAMES_KEY = 'useShortNames';

@@ -8,19 +8,24 @@ class Controls extends Component {
   static propTypes = {
     adjusters: PropTypes.array.isRequired,
     adjusterOnChange: PropTypes.func,
-    colorFuncStr: PropTypes.string
+    colorFuncStr: PropTypes.string,
+    shortNamesOnClick: PropTypes.func,
+    useShortNames: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
     adjusterOnChange: () => {},
-    colorFuncStr: ''
+    colorFuncStr: '',
+    shortNamesOnClick: () => {}
   }
 
   render() {
     const {
       adjusters,
       adjusterOnChange,
-      colorFuncStr
+      colorFuncStr,
+      shortNamesOnClick,
+      useShortNames
     } = this.props;
 
     const adjusterListItems = adjusters.map(a => {
@@ -41,6 +46,9 @@ class Controls extends Component {
         <div className='colorFunc'>
           <label className='controlsHeading' htmlFor='colorFunc'>
             Color function
+            <button className='btnText' onClick={shortNamesOnClick}>
+              {useShortNames ? 'Use full names' : 'Use short names' }
+            </button>
           </label>
           <input className='resetInput colorFuncInput'
             id='colorFunc'

@@ -33,19 +33,49 @@ label {
   font-size: 1.2rem;
 }
 
-a {
+a,
+.btnText {
   background-color: rgba(242, 17, 7, 0);
+  border: 0;
   border-bottom: 2px solid rgba(242, 17, 7, 0.15);
   color: #f21107;
   display: inline-block;
+  cursor: pointer;
   text-decoration: none;
   transition: 0.1s ease;
 }
 
 a:hover,
-a:focus {
+a:focus,
+.btnText:hover,
+.btnText:focus {
   background-color: rgba(242, 17, 7, 0.1);
   border-color: #f21107;
+}
+
+a:focus,
+.btnText:focus {
+  box-shadow: 0 0 3px rgba(242, 17, 7, 0.8);
+  outline: none;
+}
+
+.btnText {
+  border-radius: 0;
+  font-family: 'Karla', helvetica, sans-serif;
+  font-size: 0.75rem;
+  padding: 0.2rem 0;
+}
+
+label .btnText {
+  margin-left: 1rem;
+  position: relative;
+}
+
+label .btnText::before {
+  content: '|';
+  display: inline-block;
+  left: -0.5rem;
+  position: relative;
 }
 
 main {
