@@ -1,4 +1,4 @@
-[![](https://cl.ly/391N3g3k2z24/post-image-colorme-screenshot-1.png)](https://colorme.io)
+[![](https://cl.ly/2c2O2411152S/colorme.png)](https://colorme.io)
 
 # [ColorMe](https://colorme.io) [![Build Status](https://travis-ci.org/tylergaw/colorme.svg)](https://travis-ci.org/tylergaw/colorme)
 
