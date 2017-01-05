@@ -11,7 +11,7 @@ class Banner extends Component {
         </h1>
         <p className='bannerIntro'>
           Visualize The CSS Color Function.
-          {' '}Made by <a href='https://tylergaw.com' target='_blank'>Tyler Gaw</a>.
+          {' '}Made by <a href='https://tylergaw.com/articles/introducing-colorme' target='_blank'>Tyler Gaw</a>.
           {' '}Code on <a href='https://github.com/tylergaw/colorme' target='_blank'>GitHub</a>.
           {' '}Inspired by <a href='http://jim-nielsen.com/sassme/' target='_blank'>SassMe</a>.
         </p>

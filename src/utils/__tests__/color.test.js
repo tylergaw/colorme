@@ -209,7 +209,6 @@ describe('#getAdjustersString', () => {
     // tint
     adjusters[4].enabled = true;
     adjusters[4].value = '20';
-    console.log(C.getAdjustersString(adjusters, true));
     expect(C.getAdjustersString(adjusters, true).trim()).toEqual('a(60%) s(80%) tint(20%)');
   });
 });
