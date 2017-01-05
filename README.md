@@ -1,3 +1,5 @@
+[![](https://cl.ly/391N3g3k2z24/post-image-colorme-screenshot-1.png)](https://colorme.io)
+
 # [ColorMe](https://colorme.io) [![Build Status](https://travis-ci.org/tylergaw/colorme.svg)](https://travis-ci.org/tylergaw/colorme)
 
 Visualize The CSS [Color Function]((https://drafts.csswg.org/css-color/#modifying-colors)).
