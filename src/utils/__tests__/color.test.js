@@ -81,6 +81,24 @@ describe('#getAdjustersForColor', () => {
     },
     {
       enabled: false,
+      name: 'red',
+      max: 255,
+      value: 181
+    },
+    {
+      enabled: false,
+      name: 'green',
+      max: 255,
+      value: 119
+    },
+    {
+      enabled: false,
+      name: 'blue',
+      max: 255,
+      value: 242
+    },
+    {
+      enabled: false,
       name: 'whiteness',
       unit: '%',
       shortName: 'w',

@@ -39,6 +39,21 @@ export const DEFAULT_ADJUSTERS = [
   },
   {
     enabled: false,
+    name: 'red',
+    max: 255
+  },
+  {
+    enabled: false,
+    name: 'green',
+    max: 255
+  },
+  {
+    enabled: false,
+    name: 'blue',
+    max: 255
+  },
+  {
+    enabled: false,
     name: 'whiteness',
     unit: '%',
     shortName: 'w'
@@ -49,6 +64,7 @@ export const DEFAULT_ADJUSTERS = [
     unit: '%',
     shortName: 'b'
   },
+
   {
     enabled: false,
     name: 'contrast',
