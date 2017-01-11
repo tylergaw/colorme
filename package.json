@@ -25,7 +25,8 @@
     "css-color-function": "tylergaw/css-color-function.git#tg-ignore-alpha-on-mix",
     "ramda": "0.23.0",
     "react": "15.4.1",
-    "react-dom": "15.4.1"
+    "react-dom": "15.4.1",
+    "tinycolor2": "1.4.1"
   },
   "scripts": {
     "start": "NODE_PATH=src react-scripts start",

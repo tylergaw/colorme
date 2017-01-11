@@ -1,14 +1,18 @@
+import {
+  DEFAULT_ADJUSTERS,
+} from 'constants';
 import color from 'color';
 import colorFn from 'css-color-function';
+import tinycolor from 'tinycolor2';
 
 /**
- * @param {String} inputColor - A valid hex, rgb, rgba color.
- * @return {Object} An object containing the properties of the given inputColor.
+ * @param {String} colorStr - A valid hex, rgb, rgba color.
+ * @return {Object} An object containing the properties of the given colorStr.
  *                  properties include; rgb, hsl, hwb, alpha, lightness,
  *                  blackness, whiteness.
  */
-export const getColorProperties = (inputColor) => {
-  const colorObj = color(inputColor);
+export const getColorProperties = colorStr => {
+  const colorObj = color(colorStr);
   const {valpha} = colorObj;
   const {
     r: red,
@@ -47,11 +51,11 @@ export const getColorProperties = (inputColor) => {
 };
 
 /**
- * @param {String} inputColor - A valid hex, rgb, rgba color.
- * @return {Array} An array of adjuster objects for the inputColor.
+ * @param {String} colorStr - A valid hex, rgb, rgba color.
+ * @return {Array} An array of adjuster objects for the colorStr.
  */
-export const getAdjustersForColor = (inputColor, baseAdjusters) => {
-  const colorProperties = getColorProperties(inputColor);
+export const getAdjustersForColor = (colorStr, baseAdjusters) => {
+  const colorProperties = getColorProperties(colorStr);
 
   return baseAdjusters.map(a => {
     let adjuster = {...a};
@@ -143,7 +147,8 @@ export const getColorFromQueryVal = (val) => {
     color(baseColor);
   } catch (err) {
     baseColor = null;
-    console.warn(`Invalid color provided in URL: ${search}, using default base color.`);
+    console.warn(`getColorFromQueryVal couldn't figure out how to parse the
+color string provided in URL: ${search}. Returning null.`.replace(/\n/gm, ' '));
   }
 
   return baseColor;
@@ -173,5 +178,70 @@ export const getContrastColor = (baseColor, amt = '100%') => {
     return safeColor;
   } else {
     return colorFn.convert(getColorFuncString(safeColor, ` contrast(${amt})`));
+  }
+};
+
+/**
+ * @param {String} colorStr - A valid color string;
+ *                            keyword, rgb, rgba, rrggbbaa, hsl
+ * @return {Object} colorObj - A treasure trove of color information.
+ */
+export const getColorObj = (colorStr, adjusters = DEFAULT_ADJUSTERS) => {
+  const c = tinycolor(colorStr);
+  const isValid = c.isValid();
+
+  if (isValid) {
+    const baseColor = {
+      format: c.getFormat(),
+      hex: c.toString('hex'),
+      hex3: c.toString('hex3'),
+      hex6: c.toString('hex6'),
+      hex8: c.toString('hex8'),
+      hsl: c.toString('hsl'),
+      name: c.toString('name'),
+      original: c.getOriginalInput(),
+      rgb: c.toString('rgb')
+    };
+
+    // NOTE: `color` package can't work with rrggbbaa or hsl color formats.
+    // getAdjustersForColor uses it and needs an rbg(a) format or it will die.
+    const newAdjusters = getAdjustersForColor(baseColor.rgb, adjusters);
+    const adjustersStr = getAdjustersString(newAdjusters);
+    const adjustersStrShortNames = getAdjustersString(newAdjusters, true);
+    const colorFuncStr = getColorFuncString(colorStr, adjustersStr);
+    const colorFuncStrShortNames = getColorFuncString(colorStr,
+      adjustersStrShortNames);
+
+    // NOTE: `colorFn` can't work with rrggbbaa or hsl color formats.
+    // so we need to use an rgb value.
+    const colorFuncStrRgb = getColorFuncString(baseColor.rgb, adjustersStr);
+    const convertedColor = tinycolor(colorFn.convert(colorFuncStrRgb));
+
+    const outputColor = {
+      format: convertedColor.getFormat(),
+      hex: convertedColor.toString('hex'),
+      hex3: convertedColor.toString('hex3'),
+      hex6: convertedColor.toString('hex6'),
+      hex8: convertedColor.toString('hex8'),
+      hsl: convertedColor.toString('hsl'),
+      name: convertedColor.toString('name'),
+      original: convertedColor.getOriginalInput(),
+      rgb: convertedColor.toString('rgb')
+    };
+
+    return {
+      adjusters: newAdjusters,
+      adjustersStr,
+      adjustersStrShortNames,
+      baseColor,
+      baseContrastColor: getContrastColor(baseColor.rgb),
+      colorFuncStr,
+      colorFuncStrShortNames,
+      isValid,
+      outputColor,
+      outputContrastColor: getContrastColor(outputColor.rgb)
+    };
+  } else {
+    return {};
   }
 };
