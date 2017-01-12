@@ -116,42 +116,36 @@ export const getColorFromQueryVal = (val) => {
     search
   } = window.location;
 
-  let baseColor = null;
-  const decoded = decodeURIComponent(val.toLowerCase());
+  let baseColor = val.toLowerCase();
+
+  try {
+    baseColor = decodeURIComponent(val.toLowerCase());
+  } catch (e) {
+    console.warn(`getColorFromQueryVal saw a malformed URL in the
+color string provided in URL: ${search}. Using the input as is.`
+.replace(/\n/gm, ' '));
+  }
 
   // Assume the user put an non-encoded "#" in the value for a hex color.
   // Browsers will see this as window.location.hash.
-  if (decoded.length === 0) {
-    if (hash) {
-      baseColor = hash;
-    }
-  // If the val is a valid hex color length, start down that path.
-  } else if (decoded.length === 3 || decoded.length === 6) {
-    baseColor = decoded.match('#') ? decoded : `#${decoded}`;
-
-    // Now that we've added a '#' to the string, we test to see if this is
-    // in fact a valid hex color. If not, let's assume we have a keyword
-    // color and remove the "#".
-    if (!/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(baseColor)) {
-      baseColor = baseColor.replace('#', '');
-    }
-  // If none of the above match, assume the value is valid as is and just
-  // decode it.
-  } else {
-    baseColor = decoded;
+  if (baseColor.length === 0 && hash) {
+    baseColor = hash;
   }
 
-  // One last check. If the baseColor provided is invalid, the call to
-  // color() here will throw an error and we fall back to default base.
-  try {
-    color(baseColor);
-  } catch (err) {
-    baseColor = null;
+  const c = tinycolor(baseColor);
+
+  if (c.isValid()) {
+    // If the user enters a hex value without a '#' char, add it for them.
+    if (c.getFormat().includes('hex') && !baseColor.includes('#')) {
+      baseColor = `#${baseColor}`;
+    }
+
+    return baseColor;
+  } else {
     console.warn(`getColorFromQueryVal couldn't figure out how to parse the
 color string provided in URL: ${search}. Returning null.`.replace(/\n/gm, ' '));
+    return null;
   }
-
-  return baseColor;
 };
 
 /**

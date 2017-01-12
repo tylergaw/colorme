@@ -127,22 +127,37 @@ describe('#getAdjustersForColor', () => {
 describe('#getColorFromQueryVal', () => {
   const hash = '#8421e6';
   const hashThree = '#842';
+  const hashFour = '#f00b';
+  const hashEight = '#ff0000bf';
 
   const hex = '8421e6';
-  const encoded = '%238421e6';
-  const encodedThree = '%23842';
+  const hexThree = '842';
+  const hexFour = 'f00b';
+  const hexEight = 'ff0000bf';
+
+  const hexEnc = '%238421e6';
+  const hexThreeEnc = '%23842';
+  const hexFourEnc = '%23f00b';
+  const hexEightEnc = '%23ff0000bf';
 
   const rgb = 'rgb(181, 119, 242)';
-  const encodedRgb = 'rgb(181,%20119,%20242)';
   const rgba = 'rgb(181, 119, 242, 0.6)';
-  const encodedRgba = 'rgb(181,%20119,%20242,%200.6)';
+  const rgbEnc = 'rgb(181,%20119,%20242)';
+  const rgbaEnc = 'rgb(181,%20119,%20242,%200.6)';
 
+  const hsl = 'hsl(100, 19%, 20%)';
+  const hsla = 'hsla(100, 19%, 20%, 0.6)';
+  const hslEnc = 'hsl(100,%2019%25,%2020%25)';
+  const hslaEnc = 'hsla(100,%2019%25,%2020%25,%200.6)';
+
+  // Keyword colors
   it('gets the correct color from keyword colors', () => {
     expect(C.getColorFromQueryVal('red')).toEqual('red');
     expect(C.getColorFromQueryVal('yellow')).toEqual('yellow');
     expect(C.getColorFromQueryVal('navy')).toEqual('navy');
   });
 
+  // Hex values including un-encoded "#" char
   it('gets the correct color from a hex with an un-encoded url hash', () => {
     expect(C.getColorFromQueryVal(hash)).toEqual(hash);
   });
@@ -151,26 +166,68 @@ describe('#getColorFromQueryVal', () => {
     expect(C.getColorFromQueryVal(hashThree)).toEqual(hashThree);
   });
 
-  it('gets the correct color from a hex without a hash', () => {
+  it('gets the correct color from a 4 digit hex with an un-encoded url hash', () => {
+    expect(C.getColorFromQueryVal(hashFour)).toEqual(hashFour);
+  });
+
+  it('gets the correct color from a 8 digit hex with an un-encoded url hash', () => {
+    expect(C.getColorFromQueryVal(hashEight)).toEqual(hashEight);
+  });
+
+  // Hex values that do not include a "#" char
+  it('gets the correct color from a hex without a # char', () => {
     expect(C.getColorFromQueryVal(hex)).toEqual(hash);
   });
 
-  it('gets the correct color from a hex with url encoded hash', () => {
-    expect(C.getColorFromQueryVal(encoded)).toEqual(hash);
+  it('gets the correct color from a 3 digit hex without a # char', () => {
+    expect(C.getColorFromQueryVal(hexThree)).toEqual(hashThree);
   });
 
-  it('gets the correct color from a 3-digit hex with url encoded hash', () => {
-    expect(C.getColorFromQueryVal(encodedThree)).toEqual(hashThree);
+  it('gets the correct color from a 4 digit hex without a # char', () => {
+    expect(C.getColorFromQueryVal(hexFour)).toEqual(hashFour);
   });
 
-  it('gets the correct color for an un-encoded rgb(a) strings', () => {
+  it('gets the correct color from an 8 digit hex without a # char', () => {
+    expect(C.getColorFromQueryVal(hexEight)).toEqual(hashEight);
+  });
+
+  // Hex values that include a url encoded "#" (%23) char
+  it('gets the correct color from a hex with url encoded # char', () => {
+    expect(C.getColorFromQueryVal(hexEnc)).toEqual(hash);
+  });
+
+  it('gets the correct color from a 3 digit hex with url encoded # char', () => {
+    expect(C.getColorFromQueryVal(hexThreeEnc)).toEqual(hashThree);
+  });
+
+  it('gets the correct color from a 4 digit hex with url encoded # char', () => {
+    expect(C.getColorFromQueryVal(hexFourEnc)).toEqual(hashFour);
+  });
+
+  it('gets the correct color from a 8 digit hex with url encoded # char', () => {
+    expect(C.getColorFromQueryVal(hexEightEnc)).toEqual(hashEight);
+  });
+
+  // rgb values
+  it('gets the correct color from un-encoded rgb(a) strings', () => {
     expect(C.getColorFromQueryVal(rgb)).toEqual(rgb);
     expect(C.getColorFromQueryVal(rgba)).toEqual(rgba);
   });
 
-  it('gets the correct color for an encoded rgb(a) strings', () => {
-    expect(C.getColorFromQueryVal(encodedRgb)).toEqual(rgb);
-    expect(C.getColorFromQueryVal(encodedRgba)).toEqual(rgba);
+  it('gets the correct color from encoded rgb(a) strings', () => {
+    expect(C.getColorFromQueryVal(rgbEnc)).toEqual(rgb);
+    expect(C.getColorFromQueryVal(rgbaEnc)).toEqual(rgba);
+  });
+
+  // hsl values
+  it('gets the correct color from un-encoded hsl(a) strings', () => {
+    expect(C.getColorFromQueryVal(hsl)).toEqual(hsl);
+    expect(C.getColorFromQueryVal(hsla)).toEqual(hsla);
+  });
+
+  it('gets the correct color from encoded hsl(a) strings', () => {
+    expect(C.getColorFromQueryVal(hslEnc)).toEqual(hsl);
+    expect(C.getColorFromQueryVal(hslaEnc)).toEqual(hsla);
   });
 });
 
