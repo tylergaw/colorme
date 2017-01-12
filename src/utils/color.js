@@ -205,7 +205,9 @@ export const getColorObj = (colorStr, adjusters = DEFAULT_ADJUSTERS) => {
 
     // NOTE: `color` package can't work with rrggbbaa or hsl color formats.
     // getAdjustersForColor uses it and needs an rbg(a) format or it will die.
-    const newAdjusters = getAdjustersForColor(baseColor.rgb, adjusters);
+    const newAdjusters = (adjusters === DEFAULT_ADJUSTERS) ?
+      getAdjustersForColor(baseColor.rgb, adjusters) : adjusters;
+
     const adjustersStr = getAdjustersString(newAdjusters);
     const adjustersStrShortNames = getAdjustersString(newAdjusters, true);
     const colorFuncStr = getColorFuncString(colorStr, adjustersStr);

@@ -5,17 +5,13 @@ import {
 import React, { Component } from 'react';
 import {findIndex, propEq} from 'ramda';
 import {
-  getAdjustersString,
   getColorFromQueryVal,
-  getColorFuncString,
   getColorObj,
-  getContrastColor,
 } from 'utils/color';
 
 import Banner from 'components/Banner';
 import Colors from 'components/Colors';
 import Controls from 'components/Controls';
-import colorFn from 'css-color-function';
 
 class App extends Component {
   constructor(props) {
@@ -48,6 +44,7 @@ class App extends Component {
       baseColorDisplay: ogBase,
       baseContrastColor: colorObj.baseContrastColor,
       colorFuncStr: colorObj.colorFuncStr,
+      colorObj,
       outputColor: ogBase,
       outputContrastColor: colorObj.outputContrastColor,
       useShortNames
@@ -63,16 +60,30 @@ class App extends Component {
     const colorObj = getColorObj(nextBaseColor);
 
     if (colorObj.isValid) {
-      const baseFormat = colorObj.baseColor.format;
+      const {
+        adjusters,
+        baseColor: {
+          format: baseFormat
+        },
+        baseContrastColor,
+        colorFuncStr,
+        colorFuncStrShortNames,
+        outputColor,
+        outputContrastColor
+      } = colorObj;
+
+      const nextColorFuncStr = useShortNames ? colorFuncStrShortNames :
+        colorFuncStr;
 
       this.setState({
-        adjusters: colorObj.adjusters,
+        adjusters,
         baseColor: nextBaseColor,
         baseColorDisplay: nextBaseColor,
-        baseContrastColor: colorObj.baseContrastColor,
-        colorFuncStr: colorObj.colorFuncStr,
-        outputColor: colorObj.outputColor[baseFormat],
-        outputContrastColor: colorObj.outputContrastColor
+        baseContrastColor,
+        colorFuncStr: nextColorFuncStr,
+        colorObj,
+        outputColor: outputColor[baseFormat],
+        outputContrastColor
       });
     } else {
       this.setState({
@@ -105,15 +116,26 @@ class App extends Component {
       }
     }
 
-    const adjustersStr = getAdjustersString(nextAdjusters, useShortNames);
-    const colorFuncStr = getColorFuncString(baseColor, adjustersStr);
-    const outputColor = colorFn.convert(colorFuncStr) || baseColor;
+    const colorObj = getColorObj(baseColor, nextAdjusters);
+    const {
+      baseColor: {
+        format: baseFormat
+      },
+      colorFuncStr,
+      colorFuncStrShortNames,
+      outputColor,
+      outputContrastColor
+    } = colorObj;
+
+    const nextColorFuncStr = useShortNames ? colorFuncStrShortNames :
+      colorFuncStr;
 
     this.setState({
       adjusters: nextAdjusters,
-      colorFuncStr,
-      outputColor,
-      outputContrastColor: getContrastColor(outputColor)
+      colorFuncStr: nextColorFuncStr,
+      colorObj,
+      outputColor: outputColor[baseFormat],
+      outputContrastColor
     });
   }
 
@@ -123,8 +145,10 @@ class App extends Component {
     }
 
     const {
-      adjusters,
-      baseColor,
+      colorObj: {
+        colorFuncStr,
+        colorFuncStrShortNames
+      },
       useShortNames
     } = this.state;
 
@@ -133,11 +157,13 @@ class App extends Component {
     } = window;
 
     const nextUseShortNames = !useShortNames;
+    const nextColorFuncStr = nextUseShortNames ? colorFuncStrShortNames :
+      colorFuncStr;
+
     localStorage.setItem(SHORT_NAMES_KEY, nextUseShortNames);
 
     this.setState({
-      colorFuncStr: getColorFuncString(baseColor,
-        getAdjustersString(adjusters, nextUseShortNames)),
+      colorFuncStr: nextColorFuncStr,
       useShortNames: nextUseShortNames
     });
   }
