@@ -4,35 +4,128 @@ import {
   DEFAULT_ADJUSTERS,
 } from '../../constants';
 
+describe('#getHslObjFromStr', () => {
+  it('gets the correct object for an hsl string', () => {
+    expect(C.getHslObjFromStr('hsl(270, 82%, 70%)')).toEqual({
+      h: 270,
+      s: 82,
+      l: 70
+    });
+  });
+
+  it('gets the correct object for an hsla string', () => {
+    expect(C.getHslObjFromStr('hsla(301, 81%, 54%, 0.45)')).toEqual({
+      h: 301,
+      s: 81,
+      l: 54
+    });
+  });
+});
+
 describe('#getColorProperties', () => {
   const hex = '#b577f2';
   const rgb = 'rgb(181, 119, 242)';
-  const rgba = 'rgb(181, 119, 242, 0.6)';
+  const rgba = 'rgba(181, 119, 242, 0.6)';
+  const hsl = 'hsl(270, 82%, 70%)';
+  const hsla = 'hsla(270, 82%, 70%, 0.45)';
 
   let expectedProps = {
     alpha: 100,
-    hue: 271,
-    lightness: 71,
-    saturation: 83,
-    blackness: 6,
-    whiteness: 47,
+    hue: 270,
+    lightness: 70,
+    saturation: 82,
+    blackness: 5,
+    whiteness: 46,
     red: 181,
     green: 119,
     blue: 242
   };
 
   it('gets the correct props and values for a hex color', () => {
-    expect(C.getColorProperties(hex)).toEqual(expectedProps);
+    const props = C.getColorProperties(hex);
+    expect(props).toEqual(expectedProps);
   });
 
-  it('gets the correct props and values for a rgb color', () => {
-    expect(C.getColorProperties(rgb)).toEqual(expectedProps);
+  it('gets the correct props and values for an rgb color', () => {
+    const props = C.getColorProperties(rgb);
+    expect(props).toEqual(expectedProps);
   });
 
-  it('gets the correct props and values for a rgba color', () => {
+  it('gets the correct props and values for an rgba color', () => {
     let expectedRgbaProps = {...expectedProps};
     expectedRgbaProps.alpha = 60;
-    expect(C.getColorProperties(rgba)).toEqual(expectedRgbaProps);
+    const props = C.getColorProperties(rgba);
+    expect(props).toEqual(expectedRgbaProps);
+  });
+
+  it('gets the correct props and values for an hsl color', () => {
+    const expectedProps = {
+      alpha: 100,
+      hue: 270,
+      lightness: 70,
+      saturation: 82,
+      blackness: 5,
+      whiteness: 45,
+      red: 178,
+      green: 115,
+      blue: 241
+    };
+
+    const props = C.getColorProperties(hsl);
+    expect(props).toEqual(expectedProps);
+  });
+
+  it('gets the correct props and values for an hsla color', () => {
+    const expectedProps = {
+      alpha: 45,
+      hue: 270,
+      lightness: 70,
+      saturation: 82,
+      blackness: 5,
+      whiteness: 45,
+      red: 178,
+      green: 115,
+      blue: 241
+    };
+
+    const props = C.getColorProperties(hsla);
+    expect(props).toEqual(expectedProps);
+  });
+
+  it('should never change values from what was input', () => {
+    const hsl = 'hsl(100, 19%, 20%)';
+    const hslTwo = 'hsl(110, 21%, 20%)';
+
+    const expectedProps = {
+      alpha: 100,
+      hue: 100,
+      lightness: 20,
+      saturation: 19,
+      blackness: 76,
+      whiteness: 16,
+      red: 47,
+      green: 60,
+      blue: 41
+    };
+
+    const props = C.getColorProperties(hsl);
+
+    const expectedPropsTwo = {
+      alpha: 100,
+      hue: 110,
+      lightness: 20,
+      saturation: 21,
+      blackness: 75,
+      whiteness: 15,
+      red: 43,
+      green: 61,
+      blue: 40
+    };
+
+    const propsTwo = C.getColorProperties(hslTwo);
+
+    expect(props).toEqual(expectedProps);
+    expect(propsTwo).toEqual(expectedPropsTwo);
   });
 });
 
@@ -48,24 +141,24 @@ describe('#getAdjustersForColor', () => {
     },
     {
       enabled: false,
-      name: 'saturation',
-      unit: '%',
-      shortName: 's',
-      value: 83
-    },
-    {
-      enabled: false,
       name: 'hue',
       max: 360,
       shortName: 'h',
-      value: 271
+      value: 270
+    },
+    {
+      enabled: false,
+      name: 'saturation',
+      unit: '%',
+      shortName: 's',
+      value: 82
     },
     {
       enabled: false,
       name: 'lightness',
       unit: '%',
       shortName: 'l',
-      value: 71
+      value: 70
     },
     {
       enabled: false,
@@ -102,14 +195,14 @@ describe('#getAdjustersForColor', () => {
       name: 'whiteness',
       unit: '%',
       shortName: 'w',
-      value: 47
+      value: 46
     },
     {
       enabled: false,
       name: 'blackness',
       unit: '%',
       shortName: 'b',
-      value: 6
+      value: 5
     },
     {
       enabled: false,
@@ -278,8 +371,8 @@ describe('#getAdjustersString', () => {
     adjusters[0].value = '60';
 
     // saturation | s
-    adjusters[1].enabled = true;
-    adjusters[1].value = '80';
+    adjusters[2].enabled = true;
+    adjusters[2].value = '80';
 
     // tint
     adjusters[4].enabled = true;

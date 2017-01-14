@@ -6,33 +6,79 @@ import colorFn from 'css-color-function';
 import tinycolor from 'tinycolor2';
 
 /**
+ * @param {String} hslStr - A valid hsl(a) color string.
+ * @return {Object} An object containing the h,s,l values of the given hslStr.
+ *                  Object keys include; hue, saturation, lightness.
+ */
+export const getHslObjFromStr = hslStr => {
+  // First remove the 'hsl' or 'hsla' and the opening '('
+  const arr = hslStr.replace(/hsla?\(/gi, '')
+    // Remove any spaces
+    .replace(/\s+/g, '')
+    // Remove any percentage chars
+    .replace(/%/g, '')
+    // Create an array of the values
+    .split(',')
+    // Discard the forth value–the alpha–if it's there
+    .slice(0, 3)
+    // Ensure each value is an Int
+    .map(v => parseInt(v, 10));
+
+  return {
+    h: arr[0],
+    s: arr[1],
+    l: arr[2]
+  };
+};
+
+/**
  * @param {String} colorStr - A valid hex, rgb, rgba color.
  * @return {Object} An object containing the properties of the given colorStr.
  *                  properties include; rgb, hsl, hwb, alpha, lightness,
  *                  blackness, whiteness.
  */
 export const getColorProperties = colorStr => {
-  const colorObj = color(colorStr);
-  const {valpha} = colorObj;
-  const {
-    r: red,
-    g: green,
-    b: blue
-  } = colorObj.object();
+  const tinyColorObj = tinycolor(colorStr);
 
   const {
-    h: hue,
-    s: saturation,
-    l: lightness
-  } = colorObj.hsl().object();
+    _a: alpha,
+    _r: red,
+    _g: green,
+    _b: blue
+  } = tinyColorObj;
 
+  // NOTE: The `tinycolor` package sometimes changes input values for hsl(a)
+  // strings. We should always trust the direct input. If this colorStr is an
+  // hsl(a) color, use our internal method that only breaks the string into
+  // the components and does not modify the values. If it's not an hsl color
+  // we can trust tinycolor to do it's thing.
+  let hue = 0;
+  let saturation = 0;
+  let lightness = 0;
+
+  if (colorStr.includes('hsl')) {
+    const {h, s, l} = getHslObjFromStr(colorStr);
+    hue = h;
+    saturation = s;
+    lightness = l;
+  } else {
+    const {h, s, l} = tinyColorObj.toHsl();
+    hue = h;
+    saturation = s * 100;
+    lightness = l * 100;
+  }
+
+  // NOTE: the `color` package cannot handle hex4 or hex8 values.
+  // TODO: Figure out a way of getting the blackness and whiteness values
+  // here instead of using other package.
+  const colorObj = color(tinyColorObj.toRgbString());
   const {
     b: blackness,
     w: whiteness
   } = colorObj.hwb().object();
 
   const properties = {
-    alpha: valpha * 100,
+    alpha: alpha * 100,
     hue,
     lightness,
     saturation,
@@ -43,9 +89,9 @@ export const getColorProperties = colorStr => {
     blue
   };
 
-  // Round any floats up on the way out.
+  // Remove any floats on the way out.
   return Object.keys(properties).reduce((prev, curr) => {
-    prev[curr] = Math.ceil(properties[curr]);
+    prev[curr] = parseInt(properties[curr], 10);
     return prev;
   }, {});
 };
@@ -121,7 +167,7 @@ export const getColorFromQueryVal = (val) => {
   try {
     baseColor = decodeURIComponent(val.toLowerCase());
   } catch (e) {
-    console.warn(`getColorFromQueryVal saw a malformed URL in the
+    console.info(`getColorFromQueryVal saw a malformed URL in the
 color string provided in URL: ${search}. Using the input as is.`
 .replace(/\n/gm, ' '));
   }
@@ -142,7 +188,7 @@ color string provided in URL: ${search}. Using the input as is.`
 
     return baseColor;
   } else {
-    console.warn(`getColorFromQueryVal couldn't figure out how to parse the
+    console.info(`getColorFromQueryVal couldn't figure out how to parse the
 color string provided in URL: ${search}. Returning null.`.replace(/\n/gm, ' '));
     return null;
   }
@@ -152,7 +198,8 @@ color string provided in URL: ${search}. Returning null.`.replace(/\n/gm, ' '));
  * getContrastColor - For the given baseColor, return a color with sufficient
  * contrast per WCAG Guidelines.
  *
- * @param {String} baseColor - A hex, rgb(a), or keyword color.
+ * @param {String} baseColor - A hex, hex3, hex4, hex8 rgb(a), hsl(a) or
+ *                             keyword color.
  * @param {String} amt - optional - The contrast amount. Default: 100%.
  * @return {String} A color with sufficient contrast to the base color or black
  *                  if the baseColor has an alpha value. less than 50.
@@ -160,11 +207,10 @@ color string provided in URL: ${search}. Returning null.`.replace(/\n/gm, ' '));
 export const getContrastColor = (baseColor, amt = '100%') => {
   const aThreshold = 50;
   const props = getColorProperties(baseColor);
-  const colorToUse = props.alpha < aThreshold ? '#000' : baseColor;
-  const {r, g, b} = color(colorToUse).object();
 
   // This ensures we never use a color with an alpha value less than 100.
-  const safeColor = color({r, g, b}).rgb().string();
+  const colorToUse = props.alpha < aThreshold ? '#000' : baseColor;
+  const safeColor = tinycolor(colorToUse).setAlpha(1).toRgbString();
 
   // If the alpha drops below 50, always return black, else return the
   // sufficiently contrasting color.
@@ -182,7 +228,7 @@ export const getContrastColor = (baseColor, amt = '100%') => {
  */
 export const getColorObj = (colorStr, adjusters = DEFAULT_ADJUSTERS) => {
   const c = tinycolor(colorStr);
-  const isValid = c.isValid();
+  let isValid = c.isValid();
 
   if (isValid) {
     const baseColor = {
@@ -197,10 +243,8 @@ export const getColorObj = (colorStr, adjusters = DEFAULT_ADJUSTERS) => {
       rgb: c.toString('rgb')
     };
 
-    // NOTE: `color` package can't work with rrggbbaa or hsl color formats.
-    // getAdjustersForColor uses it and needs an rbg(a) format or it will die.
     const newAdjusters = (adjusters === DEFAULT_ADJUSTERS) ?
-      getAdjustersForColor(baseColor.rgb, adjusters) : adjusters;
+      getAdjustersForColor(colorStr, adjusters) : adjusters;
 
     const adjustersStr = getAdjustersString(newAdjusters);
     const adjustersStrShortNames = getAdjustersString(newAdjusters, true);
@@ -208,10 +252,13 @@ export const getColorObj = (colorStr, adjusters = DEFAULT_ADJUSTERS) => {
     const colorFuncStrShortNames = getColorFuncString(colorStr,
       adjustersStrShortNames);
 
-    // NOTE: `colorFn` can't work with rrggbbaa or hsl color formats.
-    // so we need to use an rgb value.
-    const colorFuncStrRgb = getColorFuncString(baseColor.rgb, adjustersStr);
-    const convertedColor = tinycolor(colorFn.convert(colorFuncStrRgb));
+    // NOTE: `css-color-function` package can't work with rrggbbaa format.
+    // so we use the rgb value.
+    const colorFnResult = (baseColor.format === 'hex8') ?
+      colorFn.convert(getColorFuncString(baseColor.rgb, adjustersStr)) :
+      colorFn.convert(colorFuncStr);
+
+    const convertedColor = tinycolor(colorFnResult);
 
     const outputColor = {
       format: convertedColor.getFormat(),
@@ -230,12 +277,12 @@ export const getColorObj = (colorStr, adjusters = DEFAULT_ADJUSTERS) => {
       adjustersStr,
       adjustersStrShortNames,
       baseColor,
-      baseContrastColor: getContrastColor(baseColor.rgb),
+      baseContrastColor: getContrastColor(baseColor.original),
       colorFuncStr,
       colorFuncStrShortNames,
       isValid,
       outputColor,
-      outputContrastColor: getContrastColor(outputColor.rgb)
+      outputContrastColor: getContrastColor(outputColor.original)
     };
   } else {
     return {};
