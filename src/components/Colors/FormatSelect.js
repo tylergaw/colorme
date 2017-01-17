@@ -63,7 +63,7 @@ class FormatSelect extends Component {
       {
         unavailableFormats.map(f => {
           return (
-            <option key={`format${f}`}>
+            <option key={`format${f}`} disabled>
               {this.friendlyLabels[f] || f}
             </option>
           );
