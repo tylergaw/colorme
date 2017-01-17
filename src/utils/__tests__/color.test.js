@@ -3,6 +3,7 @@ import * as C from '../color';
 import {
   DEFAULT_ADJUSTERS,
 } from '../../constants';
+import tinycolor from 'tinycolor2';
 
 describe('#getHslObjFromStr', () => {
   it('gets the correct object for an hsl string', () => {
@@ -379,4 +380,55 @@ describe('#getAdjustersString', () => {
     adjusters[4].value = '20';
     expect(C.getAdjustersString(adjusters, true).trim()).toEqual('a(60%) s(80%) tint(20%)');
   });
+});
+
+describe.only('#getColorFormats', () => {
+  // Convenience method.
+  const formatsList = colorObj => Object.keys(
+    C.getColorFormats(colorObj).formats);
+
+  const color1 = tinycolor('black');
+  expect(formatsList(color1)).toEqual([
+    'hex',
+    'hex3',
+    'hex4',
+    'hex8',
+    'hsl',
+    'keyword',
+    'rgb'
+  ]);
+
+  const color2 = tinycolor('rgba(300, 100, 70, 0.9)');
+  expect(formatsList(color2)).toEqual([
+    'hex8',
+    'hsl',
+    'rgb'
+  ]);
+
+  const color3 = tinycolor('#51a129');
+  expect(formatsList(color3)).toEqual([
+    'hex',
+    'hex8',
+    'hsl',
+    'rgb'
+  ]);
+
+  const color4 = tinycolor('hsl(300, 20%, 40%)');
+  expect(formatsList(color4)).toEqual([
+    'hex',
+    'hex8',
+    'hsl',
+    'rgb'
+  ]);
+
+  const color5 = tinycolor('hsl(360, 100%, 50%)');
+  expect(formatsList(color5)).toEqual([
+    'hex',
+    'hex3',
+    'hex4',
+    'hex8',
+    'hsl',
+    'keyword',
+    'rgb'
+  ]);
 });

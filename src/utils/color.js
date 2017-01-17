@@ -5,6 +5,8 @@ import color from 'color';
 import colorFn from 'css-color-function';
 import tinycolor from 'tinycolor2';
 
+const REBECCAPURPLEHEX = '#663399';
+
 /**
  * @param {String} hslStr - A valid hsl(a) color string.
  * @return {Object} An object containing the h,s,l values of the given hslStr.
@@ -32,7 +34,8 @@ export const getHslObjFromStr = hslStr => {
 };
 
 /**
- * @param {String} colorStr - A valid hex, rgb, rgba color.
+ * @param {String} colorStr - A valid hex, hex4, hex8, rgb(a), hsl(a), or
+ *                            keyword color.
  * @return {Object} An object containing the properties of the given colorStr.
  *                  properties include; rgb, hsl, hwb, alpha, lightness,
  *                  blackness, whiteness.
@@ -145,7 +148,7 @@ export const getAdjustersString = (adjusters, useShortNames = false) => {
 /**
  * @param {String} baseColor - A valid color string
  * @param {String} adjustersStr - A valid color adjusters string
- * @return {String} A CSS color function string or an empty string if no adjusters.
+ * @return {String} CSS color function string or empty string if no adjusters.
  *                  ex; "color(#ff0004 alpha(100%) hue(250) saturation(50%))"
  */
 export const getColorFuncString = (baseColor, adjustersStr = '') => {
@@ -222,27 +225,96 @@ export const getContrastColor = (baseColor, amt = '100%') => {
 };
 
 /**
+ * @param {Object} tinyColorObj - A tinycolor object
+ * @return {Object} - The input format, the original input and the unique
+ *                    formats.
+ */
+export const getColorFormats = tinyColorObj => {
+  const allFormats = {
+    hex: tinyColorObj.toString('hex'),
+    hex3: tinyColorObj.toString('hex3'),
+    hex4: tinyColorObj.toString('hex4'),
+    hex8: tinyColorObj.toString('hex8'),
+    hsl: tinyColorObj.toString('hsl'),
+    keyword: tinyColorObj.toString('name'),
+    rgb: tinyColorObj.toString('rgb')
+  };
+
+  const alpha = tinyColorObj.getAlpha();
+
+  // Not every color can be represented by all available formats. For each color
+  // filter out any formats that are not applicable to that color.
+  let formats = Object.keys(allFormats).filter(f => {
+    const val = allFormats[f];
+
+    // Keyword colors will not include a '#' char.
+    // Unless this is rebeccapurple. tinycolor doesn't recognize the keyword.
+    if (f === 'keyword' && val.indexOf('#') === 0 && val !== REBECCAPURPLEHEX) {
+      return false;
+    }
+
+    // This will catch the rebeccapurple case, it's gets weird because we
+    // kind of hard-code that use case.
+    if (f === 'keyword' && alpha < 1) {
+      return false;
+    }
+
+    // Semi-transparent colors cannot be represented as hex or hex shorthand.
+    if ((f === 'hex' || f === 'hex3') && alpha < 1) {
+      return false;
+    }
+
+    // Hex shorthand should not be longer than four. (including '#').
+    if (f === 'hex3' && val.length > 4) {
+      return false;
+    }
+
+    // rrggbbaa shorthand should not be longer than five. (including '#').
+    if (f === 'hex4' && val.length > 5) {
+      return false;
+    }
+
+    return f;
+  }).reduce((obj, frmt) => {
+    let val = allFormats[frmt];
+
+    // This is a special case. Tinycolor doesn't recognize 'rebeccapurple' as
+    // a keyword color yet.
+    if (frmt === 'keyword' && val === REBECCAPURPLEHEX) {
+      obj[frmt] = 'rebeccapurple';
+    } else {
+      obj[frmt] = val;
+    }
+
+    return obj;
+  }, {});
+
+  // Tinycolor calls them "name", change that to "keyword".
+  const ogFormat = tinyColorObj.getFormat();
+  const format = ogFormat === 'name' ? 'keyword' : ogFormat;
+
+  return {
+    format,
+    formats,
+    original: tinyColorObj.getOriginalInput()
+  };
+};
+
+/**
  * @param {String} colorStr - A valid color string;
  *                            keyword, rgb, rgba, rrggbbaa, hsl
  * @return {Object} colorObj - A treasure trove of color information.
  */
 export const getColorObj = (colorStr, adjusters = DEFAULT_ADJUSTERS) => {
+  if (colorStr && typeof colorStr !== 'string') {
+    throw new Error('In getColorObj, the colorStr param must be a string.');
+  }
+
   const c = tinycolor(colorStr);
   let isValid = c.isValid();
 
   if (isValid) {
-    const baseColor = {
-      format: c.getFormat(),
-      hex: c.toString('hex'),
-      hex3: c.toString('hex3'),
-      hex6: c.toString('hex6'),
-      hex8: c.toString('hex8'),
-      hsl: c.toString('hsl'),
-      name: c.toString('name'),
-      original: c.getOriginalInput(),
-      rgb: c.toString('rgb')
-    };
-
+    const baseColor = getColorFormats(c);
     const newAdjusters = (adjusters === DEFAULT_ADJUSTERS) ?
       getAdjustersForColor(colorStr, adjusters) : adjusters;
 
@@ -252,25 +324,21 @@ export const getColorObj = (colorStr, adjusters = DEFAULT_ADJUSTERS) => {
     const colorFuncStrShortNames = getColorFuncString(colorStr,
       adjustersStrShortNames);
 
-    // NOTE: `css-color-function` package can't work with rrggbbaa format.
-    // so we use the rgb value.
-    const colorFnResult = (baseColor.format === 'hex8') ?
-      colorFn.convert(getColorFuncString(baseColor.rgb, adjustersStr)) :
-      colorFn.convert(colorFuncStr);
+    let colorFnResult;
+    // NOTE: Wrap in try/catch because we sometimes have a color string without
+    // closing parens, or other things `css-color-function` can't work with.
+    try {
+      // NOTE: `css-color-function` package can't work with rrggbbaa format.
+      // so we use the rgb value.
+      colorFnResult = (baseColor.format === 'hex8') ?
+        colorFn.convert(getColorFuncString(baseColor.rgb, adjustersStr)) :
+        colorFn.convert(colorFuncStr);
+    } catch (e) {
+      colorFnResult = baseColor.original;
+    }
 
     const convertedColor = tinycolor(colorFnResult);
-
-    const outputColor = {
-      format: convertedColor.getFormat(),
-      hex: convertedColor.toString('hex'),
-      hex3: convertedColor.toString('hex3'),
-      hex6: convertedColor.toString('hex6'),
-      hex8: convertedColor.toString('hex8'),
-      hsl: convertedColor.toString('hsl'),
-      name: convertedColor.toString('name'),
-      original: convertedColor.getOriginalInput(),
-      rgb: convertedColor.toString('rgb')
-    };
+    const outputColor = getColorFormats(convertedColor);
 
     return {
       adjusters: newAdjusters,

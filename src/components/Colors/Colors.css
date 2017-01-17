@@ -20,14 +20,14 @@
 
 .colorInfo {
   flex-basis: 100%;
-  max-width: 21rem;
+  max-width: 22.5rem;
   z-index: 10;
 }
 
 .colorInput {
   border: 0;
   border-bottom: 1px solid currentColor;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   margin-top: 1rem;
   padding: 0.5rem 0;
 }
@@ -36,8 +36,32 @@
   outline: none;
 }
 
-@media (min-width: 43em) {
+.colorInputLabel {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-top: 0.4rem;
+  opacity: 0.8;
+}
+
+@media (min-width: 24em) {
+  .colorInput {
+    font-size: 1.4rem;
+  }
+}
+
+@media (min-width: 45em) {
   .colorContainer {
     flex-basis: 50%;
+  }
+
+  .colorInput {
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 50em) {
+  .colorInput {
+    font-size: 1.4rem;
   }
 }
