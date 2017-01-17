@@ -18,7 +18,7 @@
   padding-top: 0.22rem;
 }
 
-@media (min-width: 43em) {
+@media (min-width: 45em) {
   [role='banner'] {
     display: flex;
   }
