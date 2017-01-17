@@ -331,10 +331,13 @@ export const getColorObj = (colorStr, adjusters = DEFAULT_ADJUSTERS) => {
       // NOTE: `css-color-function` package can't work with rrggbbaa format.
       // so we use the rgb value.
       colorFnResult = (baseColor.format === 'hex8') ?
-        colorFn.convert(getColorFuncString(baseColor.rgb, adjustersStr)) :
+        colorFn.convert(getColorFuncString(baseColor.formats.rgb, adjustersStr)) :
         colorFn.convert(colorFuncStr);
     } catch (e) {
       colorFnResult = baseColor.original;
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('In getColorObj:', e);
+      }
     }
 
     const convertedColor = tinycolor(colorFnResult);

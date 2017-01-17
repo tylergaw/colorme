@@ -172,7 +172,7 @@ class App extends Component {
       adjusters: nextAdjusters,
       colorFuncStr: nextColorFuncStr,
       colorObj,
-      outputColor: outputColor,
+      outputColor,
       outputColorDisplay: outputFormats[nextSelectedFormat],
       outputContrastColor,
       selectedFormat: nextSelectedFormat
