@@ -9,15 +9,15 @@ export const DEFAULT_ADJUSTERS = [
   },
   {
     enabled: false,
-    name: 'saturation',
-    unit: '%',
-    shortName: 's'
-  },
-  {
-    enabled: false,
     name: 'hue',
     max: 360,
     shortName: 'h'
+  },
+  {
+    enabled: false,
+    name: 'saturation',
+    unit: '%',
+    shortName: 's'
   },
   {
     enabled: false,

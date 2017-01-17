@@ -2,57 +2,79 @@ import './Colors.css';
 
 import React, {Component, PropTypes} from 'react';
 
+import FormatSelect from './FormatSelect';
+
 class Colors extends Component {
   static propTypes = {
-    inputColor: PropTypes.string.isRequired,
-    inputColorDisplay: PropTypes.string.isRequired,
-    inputColorOnChange: PropTypes.func,
-    inputContrastColor: PropTypes.string.isRequired,
-    outputColor: PropTypes.string.isRequired,
-    outputContrastColor: PropTypes.string.isRequired
+    baseColor: PropTypes.object.isRequired,
+    baseColorDisplay: PropTypes.string.isRequired,
+    baseColorOnChange: PropTypes.func,
+    baseContrastColor: PropTypes.string.isRequired,
+    outputColor: PropTypes.object.isRequired,
+    outputColorDisplay: PropTypes.string.isRequired,
+    outputContrastColor: PropTypes.string.isRequired,
+    selectedFormat: PropTypes.string.isRequired,
+    selectedFormatOnChange: PropTypes.func
   }
 
   static defaultProps = {
-    inputColorOnChange: () => {}
+    baseColorOnChange: () => {}
   }
 
   render() {
     const {
-      inputColor,
-      inputColorDisplay,
-      inputColorOnChange,
-      inputContrastColor,
+      baseContrastColor,
+      baseColor,
+      baseColor: {
+        format: baseFormat
+      },
+      baseColorDisplay,
+      baseColorOnChange,
       outputColor,
-      outputContrastColor
+      outputColorDisplay,
+      outputContrastColor,
+      selectedFormat,
+      selectedFormatOnChange
     } = this.props;
+
+    const formatSelectProps = {
+      baseFormat,
+      outputColor,
+      selectedFormat,
+      selectedFormatOnChange
+    };
 
     return (
       <div className='colors'>
         <div className='colorContainer baseColorContainer'
           style={{
-            backgroundColor: inputColor,
-            color: inputContrastColor
+            backgroundColor: baseColor.original,
+            color: baseContrastColor
           }}>
 
           <div className='colorInfo'>
             <input className='resetInput colorInput'
+              id='inputColor'
               style={{
-                color: inputContrastColor
+                color: baseContrastColor
               }}
               type='text'
-              value={inputColorDisplay}
+              value={baseColorDisplay}
               autoComplete='off'
               autoCorrect='off'
               autoCapitalize='off'
               spellCheck='false'
-              onChange={inputColorOnChange} />
-            <small>Base hex, rgb(a), or keyword color</small>
+              onChange={baseColorOnChange} />
+            <label className='colorInputLabel'
+              htmlFor='inputColor'>
+              hex, rrggbbaa, rgb(a), hsl(a) or keyword color
+            </label>
           </div>
         </div>
 
         <div className='colorContainer outputColorContainer'
           style={{
-            backgroundColor: outputColor,
+            backgroundColor: outputColor.original,
             color: outputContrastColor
           }}>
           <div className='colorInfo'>
@@ -62,8 +84,11 @@ class Colors extends Component {
               }}
               type='text'
               readOnly
-              value={outputColor} />
-            <small>Output color</small>
+              value={outputColorDisplay} />
+            <label className='colorInputLabel'>
+              Output color as
+              <FormatSelect {...formatSelectProps} />
+            </label>
           </div>
         </div>
       </div>

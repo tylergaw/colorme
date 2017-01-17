@@ -1,0 +1,37 @@
+.formatSelectContainer {
+  box-shadow: 0 1px 0 currentColor;
+  display: inline-block;
+  margin-left: 0.3rem;
+  position: relative;
+}
+
+.formatSelectIcon {
+  fill: currentColor;
+  position: absolute;
+  right: 0;
+  top: 0.12rem;
+  z-index: 1;
+}
+
+.formatSelect {
+  appearance: none;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  color: currentColor;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Karla', helvetica, sans-serif;
+  font-size: 1rem;
+  padding-right: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.formatSelect optgroup {
+  -moz-appearance: menupopup;
+  font-family: 'Karla', helvetica, sans-serif;
+  color: #252525;
+  font-style: normal;
+  padding: 0.25rem;
+}

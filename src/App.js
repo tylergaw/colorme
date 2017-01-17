@@ -1,23 +1,17 @@
 import {
-  DEFAULT_ADJUSTERS,
   DEFAULT_BASE_COLOR,
   SHORT_NAMES_KEY,
 } from 'constants';
 import React, { Component } from 'react';
 import {findIndex, propEq} from 'ramda';
 import {
-  getAdjustersForColor,
-  getAdjustersString,
   getColorFromQueryVal,
-  getColorFuncString,
-  getContrastColor,
+  getColorObj,
 } from 'utils/color';
 
 import Banner from 'components/Banner';
 import Colors from 'components/Colors';
 import Controls from 'components/Controls';
-import color from 'color';
-import colorFn from 'css-color-function';
 
 class App extends Component {
   constructor(props) {
@@ -30,64 +24,103 @@ class App extends Component {
       }
     } = window;
 
-    let baseColor = DEFAULT_BASE_COLOR;
+    let baseColorInput = DEFAULT_BASE_COLOR;
     const useShortNames = JSON.parse(
       localStorage.getItem(SHORT_NAMES_KEY)) || false;
 
     if (search.indexOf('color') > -1) {
       const [,queryVal] = search.replace('?', '').split('=');
-      baseColor = getColorFromQueryVal(queryVal);
+      // getColorFromQueryVal will return `null` if it can't figure out how to
+      // parse the provided queryVal color string.
+      baseColorInput = getColorFromQueryVal(queryVal) || DEFAULT_BASE_COLOR;
     }
 
+    const colorObj = getColorObj(baseColorInput);
+
+    const {
+      adjusters,
+      baseColor,
+      baseColor: {
+        format: baseFormat,
+        original
+      },
+      baseContrastColor,
+      colorFuncStr,
+      outputColor,
+      outputContrastColor
+    } = colorObj;
+
     this.state = {
-      adjusters: getAdjustersForColor(baseColor, DEFAULT_ADJUSTERS),
-      colorFuncStr: getColorFuncString(baseColor,
-        getAdjustersString(DEFAULT_ADJUSTERS, useShortNames)),
-      inputColor: baseColor,
-      inputContrastColor: getContrastColor(baseColor),
-      inputColorDisplay: baseColor,
-      outputColor: baseColor,
-      outputContrastColor: getContrastColor(baseColor),
+      adjusters,
+      baseColor,
+      baseColorDisplay: original,
+      baseContrastColor,
+      colorFuncStr,
+      colorObj,
+      outputColor,
+      outputContrastColor,
+      outputColorDisplay: outputColor.formats[baseFormat],
+      selectedFormat: baseFormat,
       useShortNames
     };
   }
 
-  inputColorOnChange = (event) => {
+  baseColorOnChange = (event) => {
     const {
-      adjusters,
+      selectedFormat,
       useShortNames
     } = this.state;
 
     const nextBaseColor = event.target.value;
+    const colorObj = getColorObj(nextBaseColor);
 
-    try {
-      color(nextBaseColor);
-
-      const nextAdjusters = getAdjustersForColor(nextBaseColor, adjusters);
-      const adjustersStr = getAdjustersString(nextAdjusters, useShortNames);
-      const colorFuncStr = getColorFuncString(nextBaseColor, adjustersStr);
-      const outputColor = colorFn.convert(colorFuncStr) || nextBaseColor;
-
-      this.setState({
-        adjusters: nextAdjusters,
+    if (colorObj.isValid) {
+      const {
+        adjusters,
+        baseColor,
+        baseColor: {
+          format: baseFormat,
+          original
+        },
+        baseContrastColor,
         colorFuncStr,
-        inputColor: nextBaseColor,
-        inputContrastColor: getContrastColor(nextBaseColor),
-        inputColorDisplay: nextBaseColor,
+        colorFuncStrShortNames,
         outputColor,
-        outputContrastColor: getContrastColor(outputColor)
-      });
-    } catch(err) {
+        outputContrastColor
+      } = colorObj;
+
+      const nextColorFuncStr = useShortNames ? colorFuncStrShortNames :
+        colorFuncStr;
+
+      // Check to see if the new outputColor has the previously selected format.
+      // If so, hold on to that selection.
+      const nextSelectedFormat = outputColor.formats[selectedFormat] ?
+        selectedFormat : baseFormat;
+
       this.setState({
-        inputColorDisplay: nextBaseColor
+        adjusters,
+        baseColor,
+        baseColorDisplay: original,
+        baseContrastColor,
+        colorFuncStr: nextColorFuncStr,
+        colorObj,
+        outputColor,
+        outputColorDisplay: outputColor.formats[nextSelectedFormat],
+        outputContrastColor,
+        selectedFormat: nextSelectedFormat
       });
-    };
+    } else {
+      this.setState({
+        baseColorDisplay: nextBaseColor
+      });
+    }
   }
 
   adjusterOnChange = (event) => {
     const {
       adjusters,
-      inputColor,
+      baseColor: prevBaseColor,
+      selectedFormat,
       useShortNames
     } = this.state;
 
@@ -108,15 +141,60 @@ class App extends Component {
       }
     }
 
-    const adjustersStr = getAdjustersString(nextAdjusters, useShortNames);
-    const colorFuncStr = getColorFuncString(inputColor, adjustersStr);
-    const outputColor = colorFn.convert(colorFuncStr) || inputColor;
+    const colorObj = getColorObj(prevBaseColor.original, nextAdjusters);
+
+    const {
+      baseColor: {
+        format: baseFormat
+      },
+      colorFuncStr,
+      colorFuncStrShortNames,
+      outputColor,
+      outputColor: {
+        formats: outputFormats
+      },
+      outputContrastColor
+    } = colorObj;
+
+    const nextColorFuncStr = useShortNames ? colorFuncStrShortNames :
+      colorFuncStr;
+
+    // Check to see if the new outputColor has the previously selected format.
+    // If so, hold on to that selection.
+    let nextSelectedFormat = 'rgb';
+    if (outputFormats[selectedFormat]) {
+      nextSelectedFormat = selectedFormat;
+    } else if (outputFormats[baseFormat]) {
+      nextSelectedFormat = baseFormat;
+    }
 
     this.setState({
       adjusters: nextAdjusters,
-      colorFuncStr,
+      colorFuncStr: nextColorFuncStr,
+      colorObj,
       outputColor,
-      outputContrastColor: getContrastColor(outputColor)
+      outputColorDisplay: outputFormats[nextSelectedFormat],
+      outputContrastColor,
+      selectedFormat: nextSelectedFormat
+    });
+  }
+
+  selectedFormatOnChange = (event) => {
+    const {
+      outputColor: {
+        formats
+      }
+    } = this.state;
+
+    if (event && event.preventDefault) {
+      event.preventDefault();
+    }
+
+    const format = event.target.value;
+
+    this.setState({
+      outputColorDisplay: formats[format],
+      selectedFormat: format
     });
   }
 
@@ -126,8 +204,10 @@ class App extends Component {
     }
 
     const {
-      adjusters,
-      inputColor,
+      colorObj: {
+        colorFuncStr,
+        colorFuncStrShortNames
+      },
       useShortNames
     } = this.state;
 
@@ -136,11 +216,13 @@ class App extends Component {
     } = window;
 
     const nextUseShortNames = !useShortNames;
+    const nextColorFuncStr = nextUseShortNames ? colorFuncStrShortNames :
+      colorFuncStr;
+
     localStorage.setItem(SHORT_NAMES_KEY, nextUseShortNames);
 
     this.setState({
-      colorFuncStr: getColorFuncString(inputColor,
-        getAdjustersString(adjusters, nextUseShortNames)),
+      colorFuncStr: nextColorFuncStr,
       useShortNames: nextUseShortNames
     });
   }
@@ -148,22 +230,27 @@ class App extends Component {
   render() {
     const {
       adjusters,
+      baseColor,
+      baseColorDisplay,
+      baseContrastColor,
       colorFuncStr,
-      inputColor,
-      inputContrastColor,
-      inputColorDisplay,
       outputColor,
+      outputColorDisplay,
       outputContrastColor,
+      selectedFormat,
       useShortNames
     } = this.state;
 
     const colorsProps = {
-      inputColor,
-      inputContrastColor,
-      inputColorDisplay,
-      inputColorOnChange: this.inputColorOnChange,
+      baseColor,
+      baseColorDisplay,
+      baseColorOnChange: this.baseColorOnChange,
+      baseContrastColor,
       outputColor,
-      outputContrastColor
+      outputColorDisplay,
+      outputContrastColor,
+      selectedFormat,
+      selectedFormatOnChange: this.selectedFormatOnChange
     };
 
     const controlsProps = {
