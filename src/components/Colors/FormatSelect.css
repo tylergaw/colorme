@@ -27,3 +27,11 @@
   position: relative;
   z-index: 2;
 }
+
+.formatSelect optgroup {
+  -moz-appearance: menupopup;
+  font-family: 'Karla', helvetica, sans-serif;
+  color: #252525;
+  font-style: normal;
+  padding: 0.25rem;
+}
