@@ -21,12 +21,39 @@ class Colors extends Component {
     baseColorOnChange: () => {}
   }
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      colorInputSupport: false
+    };
+  }
+
+  componentDidMount() {
+    const test = document.createElement('input');
+    test.type = 'color';
+    test.value = 'test';
+    // Browsers with input[type='color'] will not set this value.
+    const colorInputSupport = test.value !== 'test';
+
+    this.setState({
+      colorInputSupport
+    });
+  }
+
   render() {
     const {
+      colorInputSupport
+    } = this.state;
+
+    const {
       baseContrastColor,
-      baseColor,
       baseColor: {
-        format: baseFormat
+        format: baseFormat,
+        formats: {
+          hex8
+        },
+        original: ogBase
       },
       baseColorDisplay,
       baseColorOnChange,
@@ -44,15 +71,26 @@ class Colors extends Component {
       selectedFormatOnChange
     };
 
+    // For the color picker input
+    // "The value property of the input must be a 7 character long string" - MDN
+    const colorPickerHex = hex8.substr(0, 7);
+    const colorPickerInput = colorInputSupport ? (
+      <input type='color'
+        value={colorPickerHex}
+        onChange={baseColorOnChange} />
+    ) : '';
+
     return (
       <div className='colors'>
         <div className='colorContainer baseColorContainer'
           style={{
-            backgroundColor: baseColor.original,
+            backgroundColor: ogBase,
             color: baseContrastColor
           }}>
 
           <div className='colorInfo'>
+            {colorPickerInput}
+
             <input className='resetInput colorInput'
               id='inputColor'
               style={{
