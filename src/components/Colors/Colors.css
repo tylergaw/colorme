@@ -21,6 +21,7 @@
 .colorInfo {
   flex-basis: 100%;
   max-width: 22.5rem;
+  position: relative;
   z-index: 10;
 }
 
@@ -42,6 +43,43 @@
   line-height: 1.4;
   margin-top: 0.4rem;
   opacity: 0.8;
+}
+
+.colorPickerContainer {
+  display: block;
+  height: 28px;
+  position: absolute;
+  right: 0;
+  top: 1.5rem;
+  transition: opacity 0.1s;
+  width: 24px;
+}
+
+.colorPickerContainer:hover,
+.colorPickerContainer:focus {
+  opacity: 0.8;
+}
+
+.colorPickerContainer:hover svg,
+.colorPickerContainer:focus svg {
+  transform: scale3d(0.9, 0.9, 1);
+}
+
+.colorPickerContainer input {
+  appearance: none;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  height: 30px;
+  opacity: 0;
+  position: absolute;
+  width: 24px;
+}
+
+.colorPickerContainer svg {
+  pointer-events: none;
+  transform: scale3d(0.8, 0.8, 1);
+  transition: transform 0.1s;
 }
 
 @media (min-width: 24em) {
