@@ -20,6 +20,7 @@ deploy:
   script: ./scripts/deploy.sh
   on:
     tags: true
+  skip_cleanup: true
 env:
   global:
   - AWS_ACCESS_KEY_ID=AKIAIVHGQ4QNDGEF4ZGA
