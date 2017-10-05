@@ -7,19 +7,34 @@
   "start_url": "./?utm_source=homescreen",
   "icons": [
     {
-      "src": "launcher-icon1x.png",
+      "src": "launcher-icon-48x48.png",
       "type": "image/png",
       "sizes": "48x48"
     },
     {
-      "src": "launcher-icon2x.png",
+      "src": "launcher-icon-96x96.png",
       "type": "image/png",
       "sizes": "96x96"
     },
     {
-      "src": "launcher-icon4x.png",
+      "src": "launcher-icon-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
+    },
+    {
+      "src": "launcher-icon-256x256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "launcher-icon-384x384.png",
+      "type": "image/png",
+      "sizes": "384x384"
+    },
+    {
+      "src": "launcher-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ]
 }
