@@ -59,5 +59,18 @@
       </div>
     </noscript>
     <div class="root" id="root"></div>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function() {
+          navigator.serviceWorker.register("%PUBLIC_URL%/service-worker.js")
+            .then(function(registration) {
+              console.log('registered', registration.scope);
+            }, function(err) {
+              console.log('failed', err);
+            });
+        });
+      }
+    </script>
   </body>
 </html>
