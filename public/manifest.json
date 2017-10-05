@@ -1,0 +1,25 @@
+{
+  "background_color": "#ffffff",
+  "theme_color": "#f21107",
+  "display": "standalone",
+  "short_name": "ColorMe",
+  "name": "ColorMe",
+  "start_url": "./?utm_source=homescreen",
+  "icons": [
+    {
+      "src": "launcher-icon1x.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "launcher-icon2x.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "launcher-icon4x.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}
