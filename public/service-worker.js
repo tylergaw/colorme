@@ -1,5 +1,6 @@
-var cacheName = "colorme-cache-v1";
-var urlsToCache = [
+/* global clients */
+const STATIC_CACHE_NAME = "colorme-v3";
+const STATIC_URLS = [
   "/manifest.json",
   "/launcher-icon-48x48.png",
   "/launcher-icon-96x96.png",
@@ -12,24 +13,47 @@ var urlsToCache = [
   "/index.html?utm_source=homescreen",
   "/?utm_source=homescreen",
   "https://fonts.googleapis.com/css?family=Cousine:400|Karla:400,700",
+  // NOTE: These %FOO% are special strings to be replaced with our build script
+  // See: scripts/generate-sw.js.
   "%MAINJS%",
   "%MAINCSS%",
   "%BGIMG%"
 ];
 
-self.addEventListener("install", function(event) {
+self.addEventListener("install", event => {
+  self.skipWaiting();
+
   event.waitUntil(
-    caches.open(cacheName)
-      .then(function(cache) {
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(STATIC_CACHE_NAME).then(cache => cache.addAll(STATIC_URLS))
   );
 });
 
-self.addEventListener("fetch", function(event) {
-  event.respondWith(
-    caches.match(event.request).then(function(response) {
-      return response || fetch(event.request);
+self.addEventListener("activate", event => {
+  if (self.clients && clients.claim) {
+    clients.claim();
+  }
+
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      console.log("On Activate the caches are", cacheNames);
+      return Promise.all(
+        cacheNames
+          // If the cache name is a ColorMe cache and it's not the one we just
+          // created oninstall...
+          .filter(name => name.includes("colorme") && name !== STATIC_CACHE_NAME)
+          // then delete it.
+          .map(name => {
+            console.log("Deleting cache named", name);
+            return caches.delete(name);
+          })
+      );
     })
+  );
+});
+
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => response || fetch(event.request))
   );
 });
