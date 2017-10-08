@@ -1,5 +1,5 @@
 /* global clients */
-const STATIC_CACHE_NAME = "colorme-v4";
+const STATIC_CACHE_NAME = "colorme-v5";
 const STATIC_URLS = [
   "/",
   "/index.html",
@@ -33,20 +33,18 @@ self.addEventListener("install", event => {
 });
 
 self.addEventListener("activate", event => {
-  if (self.clients && clients.claim) {
-    clients.claim();
-  }
-
   event.waitUntil(
-    caches.keys().then(cacheNames => Promise.all(
-      cacheNames
-        // If the cache name is a ColorMe cache and it's not the one we just
-        // created oninstall...
-        .filter(name => name.includes("colorme") && name !== STATIC_CACHE_NAME)
-        // then delete it.
-        .map(name => caches.delete(name))
+    caches.keys().then(cacheNames => {
+      console.log('Doing activate things');
+      return Promise.all(
+        cacheNames
+          // If the cache name is a ColorMe cache and it's not the one we just
+          // created oninstall...
+          .filter(name => name.includes("colorme") && name !== STATIC_CACHE_NAME)
+          // then delete it.
+          .map(name => caches.delete(name))
       )
-    ).then(() => self.clients.claim())
+    }).then(() => self.clients.claim())
   );
 });
 
