@@ -4,7 +4,7 @@
   "display": "standalone",
   "short_name": "ColorMe",
   "name": "ColorMe",
-  "start_url": "./?utm_source=homescreen",
+  "start_url": "/",
   "icons": [
     {
       "src": "launcher-icon-48x48.png",
