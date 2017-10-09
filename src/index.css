@@ -38,7 +38,7 @@ a,
   background-color: rgba(242, 17, 7, 0);
   border: 0;
   border-bottom: 2px solid rgba(242, 17, 7, 0.15);
-  color: #f21107;
+  color: #B50003;
   display: inline-block;
   cursor: pointer;
   text-decoration: none;
@@ -50,7 +50,7 @@ a:focus,
 .btnText:hover,
 .btnText:focus {
   background-color: rgba(242, 17, 7, 0.1);
-  border-color: #f21107;
+  border-color: #B50003;
 }
 
 a:focus,

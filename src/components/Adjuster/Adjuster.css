@@ -29,7 +29,7 @@
 
 .checkboxCustom {
   background-color: rgba(242, 17, 7, 0);
-  border: 1px solid #f21107;
+  border: 1px solid #B50003;
   border-radius: 3px;
   box-sizing: border-box;
   display: block;
@@ -90,7 +90,7 @@
   border: 0;
   border-radius: 0;
   box-sizing: border-box;
-  color: #f21107;
+  color: #B50003;
   display: block;
   font-size: 0.9rem;
   margin: 0;
@@ -103,7 +103,7 @@
   appearance: none;
   background-color: transparent;
   box-sizing: border-box;
-  color: #f21107;
+  color: #B50003;
   display: block;
   margin: 0;
   padding: 0;
