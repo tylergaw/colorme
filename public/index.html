@@ -62,7 +62,7 @@
     <div class="root" id="root"></div>
 
     <script>
-      if ("serviceWorker" in navigator) {
+      if ("serviceWorker" in navigator && window.location.port !== "3000") {
         window.addEventListener("load", function() {
           navigator.serviceWorker.register("%PUBLIC_URL%/service-worker.js")
             .then(function(registration) {
