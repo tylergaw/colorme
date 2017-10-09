@@ -77,6 +77,7 @@ class Colors extends Component {
     const colorPickerInput = colorInputSupport ? (
       <div className='colorPickerContainer'>
         <input type='color'
+          aria-label='Choose color with picker'
           value={colorPickerHex}
           onChange={baseColorOnChange} />
 
@@ -133,13 +134,14 @@ class Colors extends Component {
           }}>
           <div className='colorInfo'>
             <input className='resetInput colorInput'
+              id='outputColor'
               style={{
                 color: outputContrastColor
               }}
               type='text'
               readOnly
               value={outputColorDisplay} />
-            <label className='colorInputLabel'>
+            <label className='colorInputLabel' htmlFor='outputColor'>
               Output color as
               <FormatSelect {...formatSelectProps} />
             </label>
