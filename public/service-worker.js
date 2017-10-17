@@ -1,16 +1,16 @@
 /* global clients */
-const STATIC_CACHE_NAME = "colorme-v6";
-const STATIC_URLS = [
+const STATIC_CACHE_NAME = "colorme-v7";
+const BASE_STATIC_URLS = [
   "/",
   "/index.html",
   "/manifest.json",
-  "https://fonts.googleapis.com/css?family=Cousine:400|Karla:400,700",
-  // NOTE: These %FOO% are special strings to be replaced with our build script
-  // See: scripts/generate-sw.js.
-  "%MAINJS%",
-  "%MAINCSS%",
-  "%BGIMG%"
+  "https://fonts.googleapis.com/css?family=Cousine:400|Karla:400,700"
 ];
+
+// Builds the full array of static urls to cache. the %FOO% is replaced with
+// a JSON.stringify'd array of urls pulled from the generated asset-manifest.
+// See: scripts/generate-sw.js.
+const STATIC_URLS = BASE_STATIC_URLS.concat(JSON.parse('%MANIFESTURLS%'));
 
 self.addEventListener("install", event => {
   event.waitUntil(
