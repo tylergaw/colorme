@@ -32,6 +32,13 @@ npm test
 
 Tests will also run in [Travis](https://travis-ci.org/tylergaw/colorme).
 
+## Building
+```
+npm run build
+```
+
+Will run a modified version of CRA build process. First it builds the project for production like normal. Once that completes it runs `npm run generate-sw` which executes `scripts/generate-sw.js`. That script locates the static assets in `build/asset-manifest.js` and writes them to the `STATIC_URLS` in `build/service-worker.js`. This allows us to cache the static assets with fingerprinted filenames.
+
 ## Releasing
 
 This section is for you, Tyler. When you go away from this project for a while and come back you will no doubt forget how to deploy to prod.
@@ -44,6 +51,6 @@ To push code to prod, run:
 npm run release
 ```
 
-That will create a new git tag. Travis will see the new tag and run `./scripts/deploy.sh` which in turn builds the project and uploads the artifacts to S3 using the `aws` cli tool.
+That will create a new git tag. Travis will see the new tag and run `./scripts/deploy.sh` which in turn builds the project with `npm run build` and uploads the artifacts to S3 using the `aws` cli tool.
 
 Note: The AWS key and secret in `.travis.yml` are for an IAM role that only has access to the the `s3://colorme.io` bucket.

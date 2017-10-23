@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#B50003">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cousine:400|Karla:400,700">
     <title>ColorMe - Visualize The CSS Color Function</title>
@@ -23,8 +25,53 @@
     <meta name="twitter:site" content="@tylergaw">
     <meta name="twitter:creator" content="@tylergaw">
     <meta property="og:type" content="website">
+
+    <style>
+      .noscript {
+        font-family: 'Karla', helvetica, sans-serif;
+        font-size: 18px;
+        line-height: 1.45;
+        margin: 0 auto;
+        max-width: 50ch;
+        padding: 16px;
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
+    <noscript>
+      <div class="noscript">
+        <img src="%PUBLIC_URL%/launcher-icon1x.png" alt="ColorMe">
+
+        <p>
+          <strong>ColorMe is built with JavaScript as a dependency</strong>.
+        </p>
+
+        <p>
+          This isn’t your fault and this isn’t the best way to build websites,
+          only an issue of time for the developer, Tyler. While it’s 100% possible
+          to provide a useful experience for folks without JS–for any reason–Tyler
+          hasn’t done it yet because this project is not his number one priority.
+        </p>
+        <p>
+          There’s a good chance he’ll fix this in some distant future. If you
+          see this message, encourage him to Be Progressive! <a href="https://twitter.com/tylergaw">@tylergaw</a>.
+        </p>
+      </div>
+    </noscript>
     <div class="root" id="root"></div>
+
+    <script>
+      if ("serviceWorker" in navigator && window.location.port !== "3000") {
+        window.addEventListener("load", function() {
+          navigator.serviceWorker.register("%PUBLIC_URL%/service-worker.js")
+            .then(function(registration) {
+              console.log('Service worker, take the wheel.', registration.scope);
+            }, function(err) {
+              console.log('Service worker failed to register.', err);
+            });
+        });
+      }
+    </script>
   </body>
 </html>

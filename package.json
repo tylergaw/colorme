@@ -30,10 +30,11 @@
   },
   "scripts": {
     "start": "NODE_PATH=src react-scripts start",
-    "build": "NODE_PATH=src react-scripts build",
+    "build": "NODE_PATH=src react-scripts build && npm run generate-sw",
     "test": "NODE_PATH=src react-scripts test --env=jsdom",
     "predeploy": "NODE_PATH=src npm run build",
     "release": "node scripts/release.js",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate-sw": "node scripts/generate-sw.js"
   }
 }
