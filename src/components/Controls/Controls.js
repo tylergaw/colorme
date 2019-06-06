@@ -44,9 +44,9 @@ class Controls extends Component {
     return (
       <div className='controls'>
         <div className='colorFunc'>
-          <label className='controlsHeading' htmlFor='colorFunc'>
-            Color function
-            <button className='btnText' onClick={shortNamesOnClick}>
+          <label className='controlsHeading deprecated' htmlFor='colorFunc'>
+            [deprecated] Color function
+            <button className='btnText deprecated' onClick={shortNamesOnClick}>
               {useShortNames ? 'Use full names' : 'Use short names' }
             </button>
           </label>

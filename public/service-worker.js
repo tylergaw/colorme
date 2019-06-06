@@ -1,5 +1,5 @@
 /* global clients */
-const STATIC_CACHE_NAME = "colorme-v7";
+const STATIC_CACHE_NAME = "colorme-v8";
 const BASE_STATIC_URLS = [
   "/",
   "/index.html",
