@@ -12,6 +12,7 @@ import {
 import Banner from 'components/Banner';
 import Colors from 'components/Colors';
 import Controls from 'components/Controls';
+import DeprecationNotice from 'components/DeprecationNotice';
 
 class App extends Component {
   constructor(props) {
@@ -264,6 +265,7 @@ class App extends Component {
     return (
       <main>
         <Banner />
+        <DeprecationNotice />
         <Colors {...colorsProps} />
         <Controls {...controlsProps} />
       </main>

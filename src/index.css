@@ -66,6 +66,11 @@ a:focus,
   padding: 0.2rem 0;
 }
 
+.btnText.deprecated {
+  border-bottom-color: #dedede;
+  color: #c6c6c6;
+}
+
 label .btnText {
   margin-left: 1rem;
   position: relative;

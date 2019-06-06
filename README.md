@@ -2,6 +2,10 @@
 
 # [ColorMe](https://colorme.io) [![Build Status](https://travis-ci.org/tylergaw/colorme.svg)](https://travis-ci.org/tylergaw/colorme)
 
+**NOTE:** the CSS color function here is deprecated. New functions are in
+the works. When a spec is available we’ll get this site updated.
+See [this Github issue](https://github.com/w3c/csswg-drafts/issues/3187#issuecomment-499126198) for background.
+
 Visualize The CSS [Color Function]((https://drafts.csswg.org/css-color/#modifying-colors)).
 
 ## Contributing
