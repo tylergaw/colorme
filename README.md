@@ -11,6 +11,7 @@ ColorMe.io is built using [Create React App](https://github.com/facebookincubato
 - Production: [https://colorme.io](https://colorme.io)
 - Netlify URL: [https://colorme-io.netlify.app](https://colorme-io.netlify.app)
 - Staging: Every pull request gets a preview deploy URL. Check the PR or Netlify for it.
+- Figma: [figma.com/file/ozkzjty2burMmcntXoyHJx/colorme](https://www.figma.com/file/ozkzjty2burMmcntXoyHJx/colorme)
 
 ### Running the project locally
 
