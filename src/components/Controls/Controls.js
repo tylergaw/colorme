@@ -1,8 +1,8 @@
-import './Controls.css';
+import "./Controls.css";
 
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from "react";
 
-import Adjuster from 'components/Adjuster';
+import Adjuster from "components/Adjuster";
 
 class Controls extends Component {
   static propTypes = {
@@ -10,14 +10,14 @@ class Controls extends Component {
     adjusterOnChange: PropTypes.func,
     colorFuncStr: PropTypes.string,
     shortNamesOnClick: PropTypes.func,
-    useShortNames: PropTypes.bool.isRequired
-  }
+    useShortNames: PropTypes.bool.isRequired,
+  };
 
   static defaultProps = {
     adjusterOnChange: () => {},
-    colorFuncStr: '',
-    shortNamesOnClick: () => {}
-  }
+    colorFuncStr: "",
+    shortNamesOnClick: () => {},
+  };
 
   render() {
     const {
@@ -25,14 +25,14 @@ class Controls extends Component {
       adjusterOnChange,
       colorFuncStr,
       shortNamesOnClick,
-      useShortNames
+      useShortNames,
     } = this.props;
 
-    const adjusterListItems = adjusters.map(a => {
+    const adjusterListItems = adjusters.map((a) => {
       const props = {
         ...a,
-        onChange: adjusterOnChange
-      }
+        onChange: adjusterOnChange,
+      };
 
       return (
         <li key={`${a.name}Adjuster`}>
@@ -42,32 +42,30 @@ class Controls extends Component {
     });
 
     return (
-      <div className='controls'>
-        <div className='colorFunc'>
-          <label className='controlsHeading deprecated' htmlFor='colorFunc'>
+      <div className="controls">
+        <div className="colorFunc">
+          <label className="controlsHeading deprecated" htmlFor="colorFunc">
             [deprecated] Color function
-            <button className='btnText deprecated' onClick={shortNamesOnClick}>
-              {useShortNames ? 'Use full names' : 'Use short names' }
+            <button className="btnText deprecated" onClick={shortNamesOnClick}>
+              {useShortNames ? "Use full names" : "Use short names"}
             </button>
           </label>
-          <input className='resetInput colorFuncInput'
-            id='colorFunc'
-            type='text'
+          <input
+            className="resetInput colorFuncInput"
+            id="colorFunc"
+            type="text"
             readOnly
-            value={colorFuncStr} />
+            value={colorFuncStr}
+          />
         </div>
 
-        <div className='adjusters'>
-          <h3 className='controlsHeading'>
-            Adjusters
-          </h3>
-          <ul className='adjustersList'>
-            {adjusterListItems}
-          </ul>
+        <div className="adjusters">
+          <h2 className="controlsHeading">Adjusters</h2>
+          <ul className="adjustersList">{adjusterListItems}</ul>
         </div>
       </div>
     );
-  };
+  }
 }
 
 export default Controls;

@@ -2,6 +2,7 @@
 
 # dependencies
 node_modules
+package-lock.json
 
 # testing
 coverage
@@ -13,3 +14,4 @@ build
 .DS_Store
 .env
 npm-debug.log
+yarn-error.log

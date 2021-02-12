@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "private": false,
   "devDependencies": {
-    "gh-pages": "0.12.0",
     "moment": "2.19.3",
     "react-scripts": "0.8.4"
   },
@@ -30,11 +29,9 @@
   },
   "scripts": {
     "start": "NODE_PATH=src react-scripts start",
-    "build": "NODE_PATH=src react-scripts build && npm run generate-sw",
+    "build": "NODE_PATH=src react-scripts build && yarn generate-sw",
     "test": "NODE_PATH=src react-scripts test --env=jsdom",
-    "predeploy": "NODE_PATH=src npm run build",
-    "release": "node scripts/release.js",
-    "eject": "react-scripts eject",
+    "predeploy": "NODE_PATH=src yarn build",
     "generate-sw": "node scripts/generate-sw.js"
   }
 }

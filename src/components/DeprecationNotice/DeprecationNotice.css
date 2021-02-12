@@ -1,11 +1,17 @@
 .deprecation {
   background-color: #ffd000;
   background-image: repeating-linear-gradient(
-    -50deg, transparent, transparent 40px,
-    rgba(255,255,255,.15) 40px,
-    rgba(255,255,255,.15) 80px
+    -50deg,
+    transparent,
+    transparent 40px,
+    rgba(255, 255, 255, 0.15) 40px,
+    rgba(255, 255, 255, 0.15) 80px
   );
   box-sizing: border-box;
   padding: 0.6rem 1rem;
   width: 100%;
+}
+
+.deprecation a {
+  color: inherit;
 }
