@@ -423,4 +423,6 @@ describe("#getColorFormats", () => {
     "keyword",
     "rgb",
   ]);
+
+  expect(true).toEqual(false);
 });
