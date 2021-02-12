@@ -5,7 +5,7 @@
 }
 
 .controlsHeading {
-  color: #B50003;
+  color: var(--color-accent);
   font-size: 1rem;
   font-weight: 700;
   margin: 0;
@@ -31,12 +31,12 @@
 }
 
 .colorFuncInput::-moz-selection {
-  background-color: #B50003;
+  background-color: var(--color-accent);
   color: #fff;
 }
 
 .colorFuncInput::selection {
-  background-color: #B50003;
+  background-color: var(--color-accent);
   color: #fff;
 }
 

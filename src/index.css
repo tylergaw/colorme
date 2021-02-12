@@ -1,3 +1,8 @@
+html {
+  --color-accent: #b42e8a;
+  --color-accent-rgb: 180, 46, 138;
+}
+
 html,
 .root {
   height: 100%;
@@ -9,12 +14,12 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Karla', helvetica, sans-serif;
+  font-family: "Karla", helvetica, sans-serif;
   -webkit-text-size-adjust: 100%;
 }
 
 input {
-  font-family: 'Cousine', monospace;
+  font-family: "Cousine", monospace;
 }
 
 h1 {
@@ -37,8 +42,8 @@ a,
 .btnText {
   background-color: rgba(242, 17, 7, 0);
   border: 0;
-  border-bottom: 2px solid rgba(242, 17, 7, 0.15);
-  color: #B50003;
+  border-bottom: 2px solid rgba(var(--color-accent-rgb), 0.15);
+  color: var(--color-accent);
   display: inline-block;
   cursor: pointer;
   text-decoration: none;
@@ -50,18 +55,18 @@ a:focus,
 .btnText:hover,
 .btnText:focus {
   background-color: rgba(242, 17, 7, 0.1);
-  border-color: #B50003;
+  border-color: var(--color-accent);
 }
 
 a:focus,
 .btnText:focus {
-  box-shadow: 0 0 3px rgba(242, 17, 7, 0.8);
+  box-shadow: 0 0 3px rgba(var(--color-accent-rgb), 0.8);
   outline: none;
 }
 
 .btnText {
   border-radius: 0;
-  font-family: 'Karla', helvetica, sans-serif;
+  font-family: "Karla", helvetica, sans-serif;
   font-size: 0.75rem;
   padding: 0.2rem 0;
 }
@@ -77,7 +82,7 @@ label .btnText {
 }
 
 label .btnText::before {
-  content: '|';
+  content: "|";
   display: inline-block;
   left: -0.5rem;
   position: relative;

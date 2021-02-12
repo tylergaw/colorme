@@ -1,4 +1,4 @@
-[role='banner'] {
+[role="banner"] {
   align-self: flex-start;
   box-sizing: border-box;
   padding: 0.8rem 1rem 0.8rem 1rem;
@@ -6,7 +6,7 @@
 }
 
 .bannerTitle {
-  color: #B50003;
+  color: var(--color-accent);
   font-size: 1.4rem;
   margin-bottom: 0;
   margin-right: 0.45rem;
@@ -19,7 +19,7 @@
 }
 
 @media (min-width: 45em) {
-  [role='banner'] {
+  [role="banner"] {
     display: flex;
   }
 }

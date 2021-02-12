@@ -28,8 +28,8 @@
 }
 
 .checkboxCustom {
-  background-color: rgba(242, 17, 7, 0);
-  border: 1px solid #B50003;
+  background-color: rgba(var(--color-accent-rgb), 0);
+  border: 1px solid var(--color-accent);
   border-radius: 3px;
   box-sizing: border-box;
   display: block;
@@ -44,7 +44,7 @@
 .checkboxCustom::after {
   border: solid #fff;
   border-width: 0 2px 2px 0;
-  content: '';
+  content: "";
   display: none;
   height: 6px;
   left: 3px;
@@ -61,11 +61,11 @@
 .adjusterLabel input:focus ~ .checkboxCustom,
 .adjusterLabel:hover .checkboxCustom,
 .adjusterLabel:focus .checkboxCustom {
-  box-shadow: 0 0 3px rgba(242, 17, 7, 0.8);
+  box-shadow: 0 0 3px rgba(var(--color-accent-rgb), 0.8);
 }
 
 .adjusterLabel input:checked ~ .checkboxCustom {
-  background-color: rgba(242, 17, 7, 0.9);
+  background-color: rgba(var(--color-accent-rgb), 0.9);
 }
 
 .adjusterValue {
@@ -90,7 +90,7 @@
   border: 0;
   border-radius: 0;
   box-sizing: border-box;
-  color: #B50003;
+  color: var(--color-accent);
   display: block;
   font-size: 0.9rem;
   margin: 0;
@@ -103,7 +103,7 @@
   appearance: none;
   background-color: transparent;
   box-sizing: border-box;
-  color: #B50003;
+  color: var(--color-accent);
   display: block;
   margin: 0;
   padding: 0;
